@@ -14,11 +14,11 @@ public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, Dol
 
     private const string SceneRoot = $"{Entry.ResPath}/scenes/characters";
     private const string ImageRoot = $"{Entry.ResPath}/images/characters";
-    private const string CharacterScenePath = $"{SceneRoot}/MorimensDoll_character.tscn";
-    private const string EnergyCounterScenePath = $"{SceneRoot}/MorimensDoll_energy_counter.tscn";
-    private const string MerchantScenePath = $"{SceneRoot}/MorimensDoll_merchant.tscn";
-    private const string RestSiteScenePath = $"{SceneRoot}/MorimensDoll_rest_site.tscn";
-    private const string CharacterSelectBgScenePath = $"{SceneRoot}/MorimensDoll_character_select_bg.tscn";
+    private const string CharacterScenePath = $"{SceneRoot}/Doll_character.tscn";
+    private const string EnergyCounterScenePath = $"{SceneRoot}/Doll_energy_counter.tscn";
+    private const string MerchantScenePath = $"{SceneRoot}/Doll_merchant.tscn";
+    private const string RestSiteScenePath = $"{SceneRoot}/Doll_rest_site.tscn";
+    private const string CharacterSelectBgScenePath = $"{SceneRoot}/Doll_character_select_bg.tscn";
 
     // 角色名称颜色。
     public override Color NameColor => ThemeColor;
@@ -48,17 +48,17 @@ public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, Dol
             RestSiteAnimPath: RestSiteScenePath),
         Ui: new CharacterUiAssetSet(
             // 人物头像路径。
-            IconTexturePath: $"{ImageRoot}/MorimensDoll_character_icon.png",
+            IconTexturePath: $"{ImageRoot}/Doll_character_icon.png",
             // 人物头像轮廓。
-            IconOutlineTexturePath: $"{ImageRoot}/MorimensDoll_character_icon_outline.png",
+            IconOutlineTexturePath: $"{ImageRoot}/Doll_character_icon_outline.png",
             // 人物选择背景。
             CharacterSelectBgPath: CharacterSelectBgScenePath,
             // 人物选择图标。
-            CharacterSelectIconPath: $"{ImageRoot}/MorimensDoll_character_select.png",
+            CharacterSelectIconPath: $"{ImageRoot}/Doll_character_select.png",
             // 人物选择图标-锁定状态。
-            CharacterSelectLockedIconPath: $"{ImageRoot}/MorimensDoll_character_select_locked.png",
+            CharacterSelectLockedIconPath: $"{ImageRoot}/Doll_character_select_locked.png",
             // 地图上的角色标记图标、表情轮盘上的角色头像。
-            MapMarkerPath: $"{ImageRoot}/MorimensDoll_map_marker.png"));
+            MapMarkerPath: $"{ImageRoot}/Doll_map_marker.png"));
 
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
     public override string? PlaceholderCharacterId => "ironclad";
