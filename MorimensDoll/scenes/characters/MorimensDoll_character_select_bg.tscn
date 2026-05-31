@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" path="res://MorimensDoll/images/characters/MorimensDoll_character_select.png" id="1_character"]
 [ext_resource type="Texture2D" path="res://MorimensDoll/images/characters/MorimensDoll_character_icon.png" id="2_icon"]
 
-[node name="MorimensDollCharacterSelectBg" type="Control"]
+[node name="DollSelectBg" type="Control"]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

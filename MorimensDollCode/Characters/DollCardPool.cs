@@ -4,7 +4,7 @@ using STS2RitsuLib.Utils;
 
 namespace MorimensDoll.Characters;
 
-public sealed class MorimensDollCardPool : TypeListCardPoolModel
+public sealed class DollCardPool : TypeListCardPoolModel
 {
     private static readonly Material? PoolFrameTintMaterial =
         MaterialUtils.CreateReplaceHueShaderMaterial(0.42f, 0.65f, 0.72f);
@@ -19,7 +19,7 @@ public sealed class MorimensDollCardPool : TypeListCardPoolModel
     public override string? BigEnergyIconPath => $"{Entry.ResPath}/images/characters/energy_big.png";
     public override string? TextEnergyIconPath => $"{Entry.ResPath}/images/characters/energy_text.png";
 
-    public override Color DeckEntryCardColor => MorimensDollCharacter.ThemeColor;
+    public override Color DeckEntryCardColor => Doll.ThemeColor;
     public override Color EnergyOutlineColor => new(0.08f, 0.18f, 0.24f);
     public override Material? PoolFrameMaterial => PoolFrameTintMaterial;
 

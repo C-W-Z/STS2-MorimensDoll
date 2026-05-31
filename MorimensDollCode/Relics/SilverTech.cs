@@ -10,13 +10,13 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace MorimensDoll.Relics;
 
 // RegisterRelic 会把遗物注册进指定遗物池。
-// RegisterCharacterStarterRelic 会把它作为 MorimensDollCharacter 的初始遗物。
-[RegisterRelic(typeof(MorimensDollRelicPool))]
-[RegisterCharacterStarterRelic(typeof(MorimensDollCharacter))]
-public sealed class MorimensDollRelic : ModRelicTemplate
+// RegisterCharacterStarterRelic 会把它作为 Doll 的初始遗物。
+[RegisterRelic(typeof(DollRelicPool))]
+[RegisterCharacterStarterRelic(typeof(Doll))]
+public sealed class SilverTech : ModRelicTemplate
 {
     // 稀有度。
-    public override RelicRarity Rarity => RelicRarity.Common;
+    public override RelicRarity Rarity => RelicRarity.Starter;
 
     // 遗物的数值。这里会替换本地化中的 {Cards}。
     protected override IEnumerable<DynamicVar> CanonicalVars =>

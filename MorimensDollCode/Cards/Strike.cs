@@ -10,10 +10,10 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace MorimensDoll.Cards;
 
 // RegisterCard 会把这张牌交给 RitsuLib 自动注册。
-// RegisterCharacterStarterCard 会把它追加进 MorimensDollCharacter 的初始卡组。
-[RegisterCard(typeof(MorimensDollCardPool))]
-[RegisterCharacterStarterCard(typeof(MorimensDollCharacter), 4)]
-public sealed class MorimensDollStrike : ModCardTemplate
+// RegisterCharacterStarterCard 会把它追加进 Doll 的初始卡组。
+[RegisterCard(typeof(DollCardPool))]
+[RegisterCharacterStarterCard(typeof(Doll), 4)]
+public sealed class Strike : ModCardTemplate
 {
     // 基础耗能。
     private const int BaseEnergyCost = 1;
@@ -27,7 +27,7 @@ public sealed class MorimensDollStrike : ModCardTemplate
     private const bool ShowInCardLibrary = true;
 
     // 卡图资源。
-    // 如果你按这行代码写，文件名就对应 MorimensDoll/images/cards/MorimensDollStrike.png。
+    // 如果你按这行代码写，文件名就对应 MorimensDoll/images/cards/Strike.png。
     // 这里的 res://MorimensDoll/... 是 Godot 资源路径，对应的是你的资源文件夹名字。
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
@@ -41,7 +41,7 @@ public sealed class MorimensDollStrike : ModCardTemplate
 
     protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
 
-    public MorimensDollStrike() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
+    public Strike() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
     {
     }
 

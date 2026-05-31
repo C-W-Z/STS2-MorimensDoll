@@ -1,8 +1,9 @@
 {
-  "NEOW.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-0.char": "I am ready.",
-  "NEOW.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-0.next": "Continue",
-  "NEOW.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-1.ancient": "[sine]Go... build your character from this template...[/sine]",
-  "DARV.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-0.char": "This place is still empty.",
-  "DARV.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-0.next": "Continue",
-  "DARV.talk.MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER.0-1.ancient": "Empty is useful! Take something and fill it in!"
+
+  "NEOW.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-0.char": "I am ready.",
+  "NEOW.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-0.next": "Continue",
+  "NEOW.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-1.ancient": "[sine]Go... build your character from this template...[/sine]",
+  "DARV.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-0.char": "This place is still empty.",
+  "DARV.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-0.next": "Continue",
+  "DARV.talk.MORIMENS_DOLL_CHARACTER_DOLL.0-1.ancient": "Empty is useful! Take something and fill it in!"
 }

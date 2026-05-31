@@ -179,25 +179,25 @@ MorimensDoll/
 
 | 项 | 值 |
 |---|---|
-| 类型 | `MorimensDollCharacter` |
-| 预期 id | `MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER` |
-| starter 牌组 | 4 × `MorimensDollStrike`、4 × `MorimensDollDefend`、1 × `MorimensDollRelic` |
+| 类型 | `Doll` |
+| 预期 id | `MORIMENS_DOLL_CHARACTER_DOLL` |
+| starter 牌组 | 4 × `Strike`、4 × `Defend`、1 × `SilverTech` |
 | 资源配置 | `CharacterAssetProfile`；模板只指定静态占位资源，未指定的音频/拖尾/转场等字段从 `PlaceholderCharacterId` 回退 |
 
 ### 示例卡牌与遗物
 
 | 类型 | 池 | 预期 id |
 |---|---|---|
-| `MorimensDollStrike`（攻击） | 角色卡池 | `MORIMENS_DOLL_CARD_MORIMENS_DOLL_STRIKE` |
-| `MorimensDollDefend`（技能） | 角色卡池 | `MORIMENS_DOLL_CARD_MORIMENS_DOLL_DEFEND` |
-| `MorimensDollRelic` | `MorimensDollRelicPool` | `MORIMENS_DOLL_RELIC_MORIMENS_DOLL_RELIC` |
+| `Strike`（攻击） | 角色卡池 | `MORIMENS_DOLL_CARD_STRIKE` |
+| `Defend`（技能） | 角色卡池 | `MORIMENS_DOLL_CARD_DEFEND` |
+| `SilverTech` | `DollRelicPool` | `MORIMENS_DOLL_RELIC_SILVER_TECH` |
 
 ### 静态占位资源
 
 **图片**（`res://MorimensDoll/images/...`）：
 
-- `cards/MorimensDollStrike.png`、`cards/MorimensDollDefend.png`：示例卡图。
-- `relics/MorimensDollRelic.png`：示例遗物图标。
+- `cards/Strike.png`、`cards/Defend.png`：示例卡图。
+- `relics/SilverTech.png`：示例遗物图标。
 - `characters/MorimensDoll_character_*.png`：角色头像、角色选择图、地图标记和能量图标。
 
 **场景**（`res://MorimensDoll/scenes/characters/...`）：

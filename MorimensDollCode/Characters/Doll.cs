@@ -8,7 +8,7 @@ using STS2RitsuLib.Scaffolding.Godot;
 namespace MorimensDoll.Characters;
 
 [RegisterCharacter]
-public sealed class MorimensDollCharacter : ModCharacterTemplate<MorimensDollCardPool, MorimensDollRelicPool, MorimensDollPotionPool>
+public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, DollPotionPool>
 {
     public static readonly Color ThemeColor = new(0.42f, 0.65f, 0.72f);
 

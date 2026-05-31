@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://MorimensDoll/images/characters/MorimensDoll_character_select.png" id="1_character"]
 
-[node name="MorimensDollCharacterRestSite" type="Node2D"]
+[node name="DollRestSite" type="Node2D"]
 
 [node name="Visuals" type="Sprite2D" parent="."]
 position = Vector2(0, -96)

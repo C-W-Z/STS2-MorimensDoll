@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://MorimensDoll/images/characters/MorimensDoll_character_select.png" id="1_character"]
 
-[node name="MorimensDollCharacter" type="Node2D"]
+[node name="Doll" type="Node2D"]
 
 [node name="Visuals" type="Sprite2D" parent="."]
 unique_name_in_owner = true

@@ -3,13 +3,13 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace MorimensDoll.Characters;
 
-public sealed class MorimensDollRelicPool : TypeListRelicPoolModel
+public sealed class DollPotionPool : TypeListPotionPoolModel
 {
     public override string EnergyColorName => "MorimensDoll";
-    public override Color LabOutlineColor => MorimensDollCharacter.ThemeColor;
+    public override Color LabOutlineColor => Doll.ThemeColor;
 
-    // 遗物实验室和文本也会读取池子的能量图标路径。
-    // 资源路径以 res:// 开头，并且要能在 PCK 内找到对应文件。
+    // 即使模板暂时没有示例药水，也先把角色药水池结构留好。
+    // AssetProfile 里的资源路径不存在时，RitsuLib 会输出诊断并回退；模板这里提供真实 PNG 占位。
     public override string? BigEnergyIconPath => $"{Entry.ResPath}/images/characters/energy_big.png";
     public override string? TextEnergyIconPath => $"{Entry.ResPath}/images/characters/energy_text.png";
 }

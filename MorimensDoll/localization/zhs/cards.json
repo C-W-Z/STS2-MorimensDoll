@@ -1,8 +1,8 @@
 {
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_STRIKE.title": "模板打击",
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_STRIKE.description": "造成 {Damage:diff()} 点伤害。",
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_STRIKE.smartDescription": "造成 {Damage:diff()} 点伤害。",
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_DEFEND.title": "模板防御",
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_DEFEND.description": "获得 {Block:diff()} 点格挡。",
-  "MORIMENS_DOLL_CARD_MORIMENS_DOLL_DEFEND.smartDescription": "获得 {Block:diff()} 点格挡。"
+  "MORIMENS_DOLL_CARD_STRIKE.title": "打击",
+  "MORIMENS_DOLL_CARD_STRIKE.description": "造成 {Damage:diff()} 点伤害。",
+  "MORIMENS_DOLL_CARD_STRIKE.smartDescription": "造成 {Damage:diff()} 点伤害。",
+  "MORIMENS_DOLL_CARD_DEFEND.title": "防御",
+  "MORIMENS_DOLL_CARD_DEFEND.description": "获得 {Block:diff()} 点格挡。",
+  "MORIMENS_DOLL_CARD_DEFEND.smartDescription": "获得 {Block:diff()} 点格挡。"
 }

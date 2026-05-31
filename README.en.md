@@ -179,25 +179,25 @@ MorimensDoll/
 
 | Property | Value |
 |---|---|
-| Type | `MorimensDollCharacter` |
-| Expected ID | `MORIMENS_DOLL_CHARACTER_MORIMENS_DOLL_CHARACTER` |
-| Starter deck | 4 × `MorimensDollStrike`, 4 × `MorimensDollDefend`, 1 × `MorimensDollRelic` |
+| Type | `Doll` |
+| Expected ID | `MORIMENS_DOLL_CHARACTER_DOLL` |
+| Starter deck | 4 × `Strike`, 4 × `Defend`, 1 × `SilverTech` |
 | Assets | Configured via `CharacterAssetProfile`. The template only specifies static placeholder assets; unspecified audio, trail, transition, etc. fall back through `PlaceholderCharacterId` |
 
 ### Sample cards and relic
 
 | Type | Pool | Expected ID |
 |---|---|---|
-| `MorimensDollStrike` (attack) | character card pool | `MORIMENS_DOLL_CARD_MORIMENS_DOLL_STRIKE` |
-| `MorimensDollDefend` (skill) | character card pool | `MORIMENS_DOLL_CARD_MORIMENS_DOLL_DEFEND` |
-| `MorimensDollRelic` | `MorimensDollRelicPool` | `MORIMENS_DOLL_RELIC_MORIMENS_DOLL_RELIC` |
+| `Strike` (attack) | character card pool | `MORIMENS_DOLL_CARD_STRIKE` |
+| `Defend` (skill) | character card pool | `MORIMENS_DOLL_CARD_DEFEND` |
+| `SilverTech` | `DollRelicPool` | `MORIMENS_DOLL_RELIC_SILVER_TECH` |
 
 ### Static placeholder assets
 
 **Images** (`res://MorimensDoll/images/...`):
 
-- `cards/MorimensDollStrike.png`, `cards/MorimensDollDefend.png`: sample card art.
-- `relics/MorimensDollRelic.png`: sample relic icon.
+- `cards/Strike.png`, `cards/Defend.png`: sample card art.
+- `relics/SilverTech.png`: sample relic icon.
 - `characters/MorimensDoll_character_*.png`: character icons, select art, map marker, and energy icons.
 
 **Scenes** (`res://MorimensDoll/scenes/characters/...`):
