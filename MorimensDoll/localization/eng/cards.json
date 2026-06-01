@@ -1,8 +1,0 @@
-{
-  "MORIMENS_DOLL_CARD_STRIKE.title": "Template Strike",
-  "MORIMENS_DOLL_CARD_STRIKE.description": "Deal {Damage:diff()} damage.",
-  "MORIMENS_DOLL_CARD_STRIKE.smartDescription": "Deal {Damage:diff()} damage.",
-  "MORIMENS_DOLL_CARD_DEFEND.title": "Template Defend",
-  "MORIMENS_DOLL_CARD_DEFEND.description": "Gain {Block:diff()} Block.",
-  "MORIMENS_DOLL_CARD_DEFEND.smartDescription": "Gain {Block:diff()} Block."
-}
