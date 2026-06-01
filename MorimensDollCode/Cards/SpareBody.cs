@@ -24,8 +24,8 @@ public sealed class SpareBody() : AbstractDollCard(0, CardType.Skill, CardRarity
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await MinionCmd.AddMinion<DollMinion>(choiceContext, Owner, new MinionSummonOptions(
-            MaxHp: 8m,                              // 血量
-            PrimaryStatAmount: 2m,                  // 主要参数（具体内容在随从的 OnSummon 里定义），还有次要参数等可以按需传入
+            MaxHp: 4m,                              // 血量
+            PrimaryStatAmount: 1m,                  // 主要参数（具体内容在随从的 OnSummon 里定义），还有次要参数等可以按需传入
             Source: this,                           // 召唤来源（通常是这张牌）
             Position: MinionPosition.Front));       // 站位（见后文，默认是前排）
     }

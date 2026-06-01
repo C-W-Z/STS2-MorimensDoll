@@ -2,7 +2,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 
 namespace MorimensDoll.Minions;
 
-// 💡 必須加上 partial 關鍵字，且必須繼承自 NCreatureVisuals
+// 必須加上 partial 關鍵字，且必須繼承自 NCreatureVisuals
 public partial class NDollMinionVisuals : NCreatureVisuals
 {
     // 這裡目前不需要寫任何程式碼，空著即可
