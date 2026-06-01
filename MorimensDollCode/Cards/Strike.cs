@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using MorimensDoll.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
-using STS2RitsuLib.Scaffolding.Content;
 
 namespace MorimensDoll.Cards;
 
@@ -13,31 +12,13 @@ namespace MorimensDoll.Cards;
 // RegisterCharacterStarterCard 会把它追加进 Doll 的初始卡组。
 [RegisterCard(typeof(DollCardPool))]
 [RegisterCharacterStarterCard(typeof(Doll), 4)]
-public sealed class Strike : AbstractDollCard
+public sealed class Strike() : AbstractDollCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
-    // 基础耗能。
-    private const int BaseEnergyCost = 1;
-    // 卡牌类型。
-    private const CardType CardKind = CardType.Attack;
-    // 卡牌稀有度。
-    private const CardRarity CardRarityValue = CardRarity.Basic;
-    // 目标类型（AnyEnemy 表示任意敌人）。
-    private const TargetType CardTarget = TargetType.AnyEnemy;
-    // 是否在卡牌图鉴中显示。
-    private const bool ShowInCardLibrary = true;
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     // CanonicalVars 翻译是“规范值”，指卡牌的基础数值。
     // 添加一个 DamageVar 意为指定卡牌的基础伤害是多少；它会自动绑定到本地化里的 {Damage:diff()} 占位符。
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(6, ValueProp.Move)
-    ];
-
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-
-    public Strike() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
-    {
-    }
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6, ValueProp.Move)];
 
     // 打出时的效果逻辑。
     // 尖塔2使用了 async 和 await 来控制效果逻辑顺序执行，和尖塔1的 action 类似。
