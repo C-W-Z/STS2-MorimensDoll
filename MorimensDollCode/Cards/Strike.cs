@@ -39,7 +39,7 @@ public sealed class Strike : ModCardTemplate
         new DamageVar(6, ValueProp.Move)
     ];
 
-    protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     public Strike() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
     {

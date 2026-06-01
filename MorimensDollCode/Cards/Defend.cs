@@ -32,7 +32,7 @@ public sealed class Defend : ModCardTemplate
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
-    protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Defend };
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     // 卡牌基础数值。
     // BlockVar 会绑定到本地化里的 {Block:diff()}，升级时文本会自动显示差值。
@@ -48,6 +48,7 @@ public sealed class Defend : ModCardTemplate
     // 打出时的效果逻辑，这里是获得格挡。
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await CreatureCmd.TriggerAnim(Owner.Creature, Doll.State.Cast, Owner.Character.CastAnimDelay);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
     }
 
