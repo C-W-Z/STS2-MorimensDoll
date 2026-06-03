@@ -12,5 +12,7 @@
   "MORIMENS_DOLL_CARD_SPARE_BODY.title": "備用軀體",
   "MORIMENS_DOLL_CARD_SPARE_BODY.description": "召喚1個人偶。",
   "MORIMENS_DOLL_CARD_MINION_ATTACK.title": "指令．攻擊",
-  "MORIMENS_DOLL_CARD_MINION_ATTACK.description": "所有人偶隨機攻擊。\n若無人偶改為召喚半血人偶。"
+  "MORIMENS_DOLL_CARD_MINION_ATTACK.description": "所有人偶隨機攻擊。\n若無人偶改為召喚半血人偶。",
+  "MORIMENS_DOLL_CARD_MINION_GROW.title": "指令．成長",
+  "MORIMENS_DOLL_CARD_MINION_GROW.description": "所有人偶+{MaxHp:diff()}最大血量\n若無人偶改為召喚半血人偶。"
 }

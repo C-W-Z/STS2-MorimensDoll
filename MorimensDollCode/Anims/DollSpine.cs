@@ -98,6 +98,10 @@ public static class DollSpine
                     track.SetTrackTime(0.1f); // 永遠從 0.1 秒的位置開始
                     track.SetTimeScale(1.5f); // 永遠 1.5 倍速播放
                     break;
+                case State.Exalt:
+                    track.SetTrackTime(0.5f);
+                    track.SetTimeScale(1.5f);
+                    break;
             }
         }));
 
