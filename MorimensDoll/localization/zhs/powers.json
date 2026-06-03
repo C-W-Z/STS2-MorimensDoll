@@ -1,4 +1,6 @@
 {
   "MORIMENS_DOLL_POWER_FLESH_DETACHED_POWER.title": "靈肉兩分",
-  "MORIMENS_DOLL_POWER_FLESH_DETACHED_POWER.description": "回復生命時獲得 [blue]{Amount}[/blue] 點[gold]格擋[/gold]。"
+  "MORIMENS_DOLL_POWER_FLESH_DETACHED_POWER.description": "回復生命時獲得[blue]{Amount}[/blue]點[gold]格擋[/gold]。",
+  "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.title": "攻擊點數",
+  "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.description": "本回合可以攻擊[blue]{Amount}[/blue]次"
 }

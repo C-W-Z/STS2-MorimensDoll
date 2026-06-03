@@ -6,9 +6,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Commands;
 using MinionLib.RitsuAdapters;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Minions.Actions;
 
+[RegisterPower]
 public class MinionAttackAction : ModActionTemplate
 {
     public override TargetType TargetType => TargetType.AnyEnemy;           // 目标类型
@@ -23,6 +25,7 @@ public class MinionAttackAction : ModActionTemplate
         if (target == null) return;
 
         await MinionAnimCmd.PlayBumpAttackAsync(Owner, target);                             // 播放撞击动画（在 MinionAnimCmd 中定义）
-        await CreatureCmd.Damage(choiceContext, target, 4m, ValueProp.Move, Owner, null);   // 造成伤害
+        await CreatureCmd.Damage(choiceContext, target, 0m, ValueProp.Move, Owner, null);   // 造成伤害
+        await PowerCmd.Remove<MinionAttackAction>(Owner);
     }
 }
