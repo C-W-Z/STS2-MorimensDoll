@@ -8,6 +8,7 @@ using MinionLib.Commands;
 using MinionLib.Minion;
 using MinionLib.Targeting;
 using MinionLib.Utilities;
+using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using MorimensDoll.Minions;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -41,7 +42,8 @@ public sealed class MinionAttack() : AbstractDollCard(1, CardType.Skill, CardRar
             Creature? enemy = Owner.RunState.Rng.CombatTargets.NextItem(CombatState.HittableEnemies);
             if (enemy == null)
                 break;
-            await MinionAnimCmd.PlayBumpAttackAsync(minion, enemy); // 播放撞击动画
+            // await MinionAnimCmd.PlayBumpAttackAsync(minion, enemy); // 播放撞击动画
+            await CreatureCmd.TriggerAnim(minion, DollSpine.State.Attack, DollSpine.AttackAnimDelay);
             await CreatureCmd.Damage(choiceContext, enemy, 0m, ValueProp.Move, minion, this); // 造成伤害，方法和原版类似
         }
     }

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MinionLib.Minion;
 using MinionLib.Powers;
 using MinionLib.RitsuAdapters;
+using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -46,6 +47,6 @@ public class DollMinion : ModMinionTemplate
 
     protected override CreatureAnimator? SetupCustomCreatureAnimator(MegaSprite controller)
     {
-        return Doll.GetCreatureAnimator(controller);
+        return DollSpine.GetCreatureAnimator(controller);
     }
 }

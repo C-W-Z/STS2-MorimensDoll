@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using MorimensDoll.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -17,6 +18,7 @@ public sealed class FleshDetached() : AbstractDollCard(2, CardType.Power, CardRa
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Exalt, DollSpine.ExaltAnimDelay);
         await PowerCmd.Apply<FleshDetachedPower>(choiceContext, Owner.Creature, DynamicVars["FleshDetachedPower"].BaseValue, Owner.Creature, this);
     }
 

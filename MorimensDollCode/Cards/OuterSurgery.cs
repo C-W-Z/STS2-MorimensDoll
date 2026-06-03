@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -19,7 +20,7 @@ public sealed class OuterSurgery() : AbstractDollCard(2, CardType.Skill, CardRar
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(CombatState);
-        await CreatureCmd.TriggerAnim(Owner.Creature, Doll.State.Skill1, Owner.Character.CastAnimDelay);
+        await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Skill1, DollSpine.Skill1AnimDelay);
         await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.BaseValue, true);
         // all enemies
         await PowerCmd.Apply<WeakPower>(choiceContext, CombatState.HittableEnemies, DynamicVars.Weak.BaseValue, Owner.Creature, this);
