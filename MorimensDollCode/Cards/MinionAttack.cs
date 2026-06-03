@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Commands;
 using MinionLib.Minion;
 using MinionLib.Targeting;
+using MinionLib.Utilities;
 using MorimensDoll.Characters;
 using MorimensDoll.Minions;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -23,28 +24,26 @@ public sealed class MinionAttack() : AbstractDollCard(1, CardType.Skill, CardRar
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(CombatState);
-        bool hasPet = false;
-        foreach (var ally in CombatState.Allies)
+
+        List<Creature>? pets = PetsOrderAccessor.GetRawPetsList(Owner);
+        if (pets == null || pets.Count == 0)
         {
-            if (ally.IsAlive && ally.IsPet && ally.Monster is MinionModel)
-            {
-                hasPet = true;
-                Creature? enemy = Owner.RunState.Rng.CombatTargets.NextItem(CombatState.HittableEnemies);
-                if (enemy == null)
-                    break;
-                await MinionAnimCmd.PlayBumpAttackAsync(ally, enemy); // 播放撞击动画
-                await CreatureCmd.Damage(choiceContext, enemy, 0m, ValueProp.Move, ally, this); // 造成伤害，方法和原版类似
-            }
+            await MinionCmd.AddMinion<DollMinion>(choiceContext, Owner, new MinionSummonOptions(
+                MaxHp: DollMinion.MAX_HP / 2,           // 血量
+                PrimaryStatAmount: 1m,                  // 主要参数（具体内容在随从的 OnSummon 里定义），还有次要参数等可以按需传入
+                Source: this,                           // 召唤来源（通常是这张牌）
+                Position: MinionPosition.Front));       // 站位（见后文，默认是前排）
+            return;
         }
 
-        if (hasPet)
-            return;
-
-        await MinionCmd.AddMinion<DollMinion>(choiceContext, Owner, new MinionSummonOptions(
-            MaxHp: DollMinion.MAX_HP / 2,           // 血量
-            PrimaryStatAmount: 1m,                  // 主要参数（具体内容在随从的 OnSummon 里定义），还有次要参数等可以按需传入
-            Source: this,                           // 召唤来源（通常是这张牌）
-            Position: MinionPosition.Front));       // 站位（见后文，默认是前排）
+        foreach (var minion in pets)
+        {
+            Creature? enemy = Owner.RunState.Rng.CombatTargets.NextItem(CombatState.HittableEnemies);
+            if (enemy == null)
+                break;
+            await MinionAnimCmd.PlayBumpAttackAsync(minion, enemy); // 播放撞击动画
+            await CreatureCmd.Damage(choiceContext, enemy, 0m, ValueProp.Move, minion, this); // 造成伤害，方法和原版类似
+        }
     }
 
     protected override void OnUpgrade()
