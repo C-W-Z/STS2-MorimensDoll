@@ -6,5 +6,5 @@
   "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.title": "攻擊點數",
   "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.description": "本回合可以攻擊[blue]{Amount}[/blue]次。",
   "MORIMENS_DOLL_POWER_DOLL_MINION_GUARDIAN_POWER.title": "為你而死",
-  "MORIMENS_DOLL_POWER_DOLL_MINION_GUARDIAN_POWER.description": "在前排時，替你吸收未被格擋的攻擊傷害。"
+  "MORIMENS_DOLL_POWER_DOLL_MINION_GUARDIAN_POWER.description": "替你吸收未被格擋的攻擊傷害。"
 }

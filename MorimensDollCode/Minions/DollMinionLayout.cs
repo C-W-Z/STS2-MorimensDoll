@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Models;
 using MinionLib.Layout;
 using MinionLib.Minion;
 using MorimensDoll.Minions;
@@ -36,11 +37,14 @@ public class DollMinionLayout : IMinionLayout
                     {
                         minion.Position = MinionPosition.Front;
                         frontCount++;
+                        if (!minion.Creature.HasPower<DollMinionGuardianPower>())
+                            ModelDb.Power<DollMinionGuardianPower>().ToMutable().ApplyInternal(minion.Creature, 1);
                     }
                     else
                     {
                         // 超出總上限時的防呆，擠在後排
                         minion.Position = MinionPosition.Back;
+                        minion.Creature.GetPower<DollMinionGuardianPower>()?.RemoveInternal();
                     }
                 }
             }

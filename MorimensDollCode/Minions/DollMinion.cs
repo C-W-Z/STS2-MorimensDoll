@@ -41,8 +41,6 @@ public class DollMinion : ModMinionTemplate
             await CreatureCmd.SetCurrentHp(self, maxHp); // 设置血量
         }
 
-        await PowerCmd.Apply<DollMinionGuardianPower>(choiceContext, self, 1, owner.Creature, options.Source);
-
         if (options.PrimaryStatAmount is decimal strength && strength > 0m)
             await PowerCmd.Apply<StrengthPower>(choiceContext, self, strength, owner.Creature, options.Source); // 根据传入的参数设置力量
     }
