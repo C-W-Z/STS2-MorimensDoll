@@ -9,7 +9,7 @@ namespace MorimensDoll.Minion;
 
 public static class DollMinionCmd
 {
-    public static async Task Summon(PlayerChoiceContext choiceContext, Player player, CardModel source, decimal hp = DollMinion.MAX_HP, decimal atk = 1m)
+    public static async Task Summon(PlayerChoiceContext choiceContext, Player player, CardModel? source, decimal hp = DollMinion.MAX_HP, decimal atk = 1m)
     {
         await MinionCmd.AddMinion<DollMinion>(choiceContext, player, new MinionSummonOptions(
             MaxHp: hp,                  // 血量

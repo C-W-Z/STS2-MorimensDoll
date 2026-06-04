@@ -22,5 +22,7 @@
   "MORIMENS_DOLL_CARD_SYNAPTIC_EXPANSION.title": "神經突觸擴充",
   "MORIMENS_DOLL_CARD_SYNAPTIC_EXPANSION.description": "前排人偶上限提升{DollMinionLimitPower:diff()}。",
   "MORIMENS_DOLL_CARD_ECTOPLASMIC_SPLITTING.title": "靈質分離",
-  "MORIMENS_DOLL_CARD_ECTOPLASMIC_SPLITTING.description": "召喚{Repeat:diff()}個人偶。"
+  "MORIMENS_DOLL_CARD_ECTOPLASMIC_SPLITTING.description": "召喚{Repeat:diff()}個人偶。",
+  "MORIMENS_DOLL_CARD_ASSIMILATION.title": "同化",
+  "MORIMENS_DOLL_CARD_ASSIMILATION.description": "每當敵人死亡召喚{AssimilationPower:diff()}個人偶。"
 }
