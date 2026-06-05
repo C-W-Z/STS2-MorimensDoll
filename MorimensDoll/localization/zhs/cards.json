@@ -24,7 +24,9 @@
   "MORIMENS_DOLL_CARD_ECTOPLASMIC_SPLITTING.title": "靈質分離",
   "MORIMENS_DOLL_CARD_ECTOPLASMIC_SPLITTING.description": "召喚{Repeat:diff()}個人偶。",
   "MORIMENS_DOLL_CARD_ASSIMILATION.title": "同化",
-  "MORIMENS_DOLL_CARD_ASSIMILATION.description": "每當敵人死亡召喚{AssimilationPower:diff()}個人偶。",
+  "MORIMENS_DOLL_CARD_ASSIMILATION.description": "每當敵人死亡時召喚{AssimilationPower:diff()}個人偶。",
   "MORIMENS_DOLL_CARD_PROLIFERATION.title": "增殖",
-  "MORIMENS_DOLL_CARD_PROLIFERATION.description": "{IfUpgraded:show:立即召喚{Repeat:diff()}個人偶，|}接下來{ProliferationPower:diff()}回合結束時召喚一個人偶。"
+  "MORIMENS_DOLL_CARD_PROLIFERATION.description": "{IfUpgraded:show:立即召喚{Repeat:diff()}個人偶，|}接下來{ProliferationPower:diff()}回合結束時召喚一個人偶。",
+  "MORIMENS_DOLL_CARD_DEBRIS_ANALYSIS.title": "殘骸分析",
+  "MORIMENS_DOLL_CARD_DEBRIS_ANALYSIS.description": "每當人偶死亡時抽{DebrisAnalysisPower:diff()}張牌。"
 }
