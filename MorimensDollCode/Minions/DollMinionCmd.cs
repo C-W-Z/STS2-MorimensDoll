@@ -28,6 +28,7 @@ public static class DollMinionCmd
     {
         var powers = origin.Creature.Powers.ToList();
         Creature newMinion = await Summon(choiceContext, player, cardSource, origin.Creature.MaxHp, 0, origin.Creature.CurrentHp);
+        // TODO: 用PowerCmd.Apply會受到能力加成影響（如力量加成、災厄加成等），要改成更底層的賦予powers
         await PowerUtils.ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
         return newMinion;
     }
@@ -44,10 +45,12 @@ public static class DollMinionCmd
             maxHp += minion.Creature.MaxHp;
             hp += minion.Creature.CurrentHp;
             powers.AddRange([.. minion.Creature.Powers]); // 收集所有能力
+            // TODO: 是否要用殺死這件事情有待商榷，可能會有意外情況，或者導致太強？
             await CreatureCmd.Kill(minion.Creature);
         }
 
         Creature newMinion = await Summon(choiceContext, player, cardSource, maxHp, 0, hp);
+        // TODO: 用PowerCmd.Apply會受到能力加成影響（如力量加成、災厄加成等），要改成更底層的賦予powers
         await PowerUtils.ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
         return newMinion;
     }
