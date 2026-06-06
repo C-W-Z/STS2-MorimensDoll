@@ -12,7 +12,7 @@
   "MORIMENS_DOLL_CARD_SUMMON_ONCE.title": "備用軀體",
   "MORIMENS_DOLL_CARD_SUMMON_ONCE.description": "召喚{Repeat:diff()}個人偶。",
   "MORIMENS_DOLL_CARD_SUMMON_FEW.title": "靈質分離",
-  "MORIMENS_DOLL_CARD_SUMMON_FEW.description": "召喚{Repeat:diff()}個人偶。",
+  "MORIMENS_DOLL_CARD_SUMMON_FEW.description": "失去{HpLoss:diff()}點生命。召喚{Repeat:diff()}個人偶。",
   "MORIMENS_DOLL_CARD_SUMMON_ON_TURN_END.title": "增殖",
   "MORIMENS_DOLL_CARD_SUMMON_ON_TURN_END.description": "{IfUpgraded:show:立即召喚{Repeat:diff()}個人偶，|}接下來{SummonOnTurnEndPower:diff()}回合結束時召喚一個人偶。",
   "MORIMENS_DOLL_CARD_MINION_LIMIT_UP.title": "神經突觸擴充",
