@@ -9,11 +9,11 @@ public abstract class AbstractMinionCard(int baseCost, CardType type, CardRarity
 {
     protected override HashSet<CardTag> CanonicalTags => [DollCardTag.MinionCmd];
 
-    protected async Task<IEnumerable<DollMinion>> CheckMinionExistAndSummon(PlayerChoiceContext choiceContext)
+    protected async Task<List<DollMinion>> CheckMinionExistAndSummon(PlayerChoiceContext choiceContext)
     {
         ArgumentNullException.ThrowIfNull(Owner);
-        IEnumerable<DollMinion> minions = DollMinionCmd.GetAllDollMinions(Owner);
-        if (!minions.Any())
+        List<DollMinion> minions = DollMinionCmd.GetAllDollMinions(Owner);
+        if (minions.Count == 0)
             await DollMinionCmd.Summon(choiceContext, Owner, this);
         return minions;
     }

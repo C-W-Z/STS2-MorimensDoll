@@ -9,17 +9,19 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
 
-[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AllMinions 要改成自訂的只有DollMinion 的 TargetType
-public sealed class MinionAttack() : AbstractMinionCard(1, CardType.Skill, CardRarity.Common, MinionTargetTypes.AllMinions)
+[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AnyMinion 要改成自訂的只有DollMinion 的 TargetType
+public sealed class MinionCopy() : AbstractMinionCard(2, CardType.Skill, CardRarity.Uncommon, MinionTargetTypes.AnyMinion)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<DollMinion> pets = await CheckMinionExistAndSummon(choiceContext);
+        List<DollMinion> minions = await CheckMinionExistAndSummon(choiceContext);
+        if (minions.Count == 0)
+            return;
 
-        foreach (var minion in pets)
-            await DollMinionCmd.AttackRandomEnemy(choiceContext, minion, null);
+        ArgumentNullException.ThrowIfNull(cardPlay.Target?.Monster);
+        await DollMinionCmd.SummonCopy(choiceContext, Owner, (DollMinion)cardPlay.Target.Monster, this);
     }
 
     protected override void OnUpgrade()

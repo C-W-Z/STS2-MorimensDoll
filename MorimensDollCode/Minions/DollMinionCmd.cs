@@ -102,11 +102,11 @@ public static class DollMinionCmd
         await CreatureCmd.Damage(choiceContext, enemy, 0m, ValueProp.Move, minion.Creature, cardSource);
     }
 
-    public static IEnumerable<DollMinion> GetAllDollMinions(Player player)
+    public static List<DollMinion> GetAllDollMinions(Player player)
     {
         IEnumerable<Creature>? pets = player.PlayerCombatState?.Pets;
         if (pets == null)
             return [];
-        return pets.Select(p => p.Monster).OfType<DollMinion>();
+        return [.. pets.Select(p => p.Monster).OfType<DollMinion>()];
     }
 }

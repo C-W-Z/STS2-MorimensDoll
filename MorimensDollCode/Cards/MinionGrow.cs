@@ -10,14 +10,14 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
 
-[RegisterCard(typeof(DollCardPool))]
+[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AllMinions 要改成自訂的只有DollMinion 的 TargetType
 public sealed class MinionGrow() : AbstractMinionCard(1, CardType.Skill, CardRarity.Common, MinionTargetTypes.AllMinions)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new MaxHpVar(4m)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        IEnumerable<DollMinion> pets = await CheckMinionExistAndSummon(choiceContext);
+        List<DollMinion> pets = await CheckMinionExistAndSummon(choiceContext);
 
         foreach (var minion in pets)
         {
