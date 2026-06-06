@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using MorimensDoll.Anims;
+using MorimensDoll.CardTags;
 using MorimensDoll.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 
