@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Minion;
 using MinionLib.RitsuAdapters;
 using MorimensDoll.Anims;
@@ -20,7 +19,7 @@ public class DollMinion : ModMinionTemplate
     public override int MinInitialHp => 1; // 作为敌方方怪物生成时的血量，通常无需在意
     public override int MaxInitialHp => 1; // 作为敌方方怪物生成时的血量，通常无需在意
 
-    public const decimal MAX_HP = 4m;
+    public const decimal BASE_MAX_HP = 4m;
 
     // 預設的基礎上限
     public const int BASE_FRONT_LIMIT = 2;
@@ -35,13 +34,16 @@ public class DollMinion : ModMinionTemplate
     // 注意使用 self 而非 this
     public override async Task OnSummon(PlayerChoiceContext choiceContext, Player owner, Creature self, MinionSummonOptions options)
     {
-        await CreatureCmd.SetMaxHp(self, MAX_HP);
-        if (options.MaxHp is decimal maxHp)
-        {
-            if (maxHp > MAX_HP)
-                await CreatureCmd.SetMaxHp(self, maxHp);
-            await CreatureCmd.SetCurrentHp(self, maxHp); // 设置血量
-        }
+
+        if (options.MaxHp is decimal maxHp && maxHp > 0)
+            await CreatureCmd.SetMaxHp(self, maxHp);
+        else
+            await CreatureCmd.SetMaxHp(self, BASE_MAX_HP);
+
+        if (options.SecondaryStatAmount is decimal hp && hp > 0m)
+            await CreatureCmd.SetCurrentHp(self, hp);
+        else
+            await CreatureCmd.SetCurrentHp(self, self.MaxHp);
 
         if (options.PrimaryStatAmount is decimal strength && strength > 0m)
             await PowerCmd.Apply<StrengthPower>(choiceContext, self, strength, owner.Creature, options.Source); // 根据传入的参数设置力量
