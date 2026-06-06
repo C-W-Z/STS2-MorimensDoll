@@ -3,7 +3,7 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Combat;
 using STS2RitsuLib.Patching.Models;
 
-namespace MorimensDoll.Patches;
+namespace MorimensDoll.Patches.Minion;
 
 public class MinionBeforeTurnEndPatch : IPatchMethod
 {

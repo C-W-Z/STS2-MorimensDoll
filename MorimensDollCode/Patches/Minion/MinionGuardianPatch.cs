@@ -3,7 +3,7 @@ using MinionLib.Powers.Patches;
 using MorimensDoll.Powers;
 using STS2RitsuLib.Patching.Models;
 
-namespace MorimensDoll.Patches;
+namespace MorimensDoll.Patches.Minion;
 
 public class MinionGuardianPatch : IPatchMethod
 {
