@@ -1,7 +1,9 @@
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MinionLib.Targeting;
+using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using MorimensDoll.Minion;
 using MorimensDoll.Minions;
@@ -9,8 +11,8 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
 
-[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AnyMinion 要改成自訂的只有DollMinion 的 TargetType
-public sealed class MinionCopy() : AbstractMinionCard(2, CardType.Skill, CardRarity.Uncommon, MinionTargetTypes.AnyMinion)
+[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AnyMinion 要改成自訂的只有 DollMinion 的 TargetType
+public sealed class MinionCopy() : AbstractMinionCard(2, CardType.Skill, CardRarity.Rare, MinionTargetTypes.AnyMinion)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
@@ -21,6 +23,7 @@ public sealed class MinionCopy() : AbstractMinionCard(2, CardType.Skill, CardRar
             return;
 
         ArgumentNullException.ThrowIfNull(cardPlay.Target?.Monster);
+        await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
         await DollMinionCmd.SummonCopy(choiceContext, Owner, (DollMinion)cardPlay.Target.Monster, this);
     }
 

@@ -9,7 +9,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
 
-[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AllMinions 要改成自訂的只有DollMinion 的 TargetType
+[RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AllMinions 要改成自訂的只有 DollMinion 的 TargetType
 public sealed class MinionAttack() : AbstractMinionCard(1, CardType.Skill, CardRarity.Common, MinionTargetTypes.AllMinions)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];

@@ -5,25 +5,22 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MinionLib.Targeting;
 using MorimensDoll.Anims;
 using MorimensDoll.Characters;
-using MorimensDoll.Minions;
+using MorimensDoll.Minion;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
 
 [RegisterCard(typeof(DollCardPool))] // TODO: MinionTargetTypes.AllMinions 要改成自訂的只有 DollMinion 的 TargetType
-public sealed class MinionGrow() : AbstractMinionCard(1, CardType.Skill, CardRarity.Common, MinionTargetTypes.AllMinions)
+public sealed class MinionMerge() : AbstractMinionCard(2, CardType.Skill, CardRarity.Rare, MinionTargetTypes.AllMinions)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new MaxHpVar(4m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<DollMinion> pets = await CheckMinionExistAndSummon(choiceContext);
+        await CheckMinionExistAndSummon(choiceContext);
 
-        foreach (var minion in pets)
-        {
-            await CreatureCmd.TriggerAnim(minion.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
-            await CreatureCmd.GainMaxHp(minion.Creature, DynamicVars.MaxHp.BaseValue);
-        }
+        await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
+        await DollMinionCmd.MergeAllDollMinions(choiceContext, Owner, this);
     }
 
     protected override void OnUpgrade()
