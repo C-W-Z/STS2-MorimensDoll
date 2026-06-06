@@ -14,5 +14,6 @@
   "MORIMENS_DOLL_POWER_SUMMON_ON_TURN_END_POWER.title": "增殖",
   "MORIMENS_DOLL_POWER_SUMMON_ON_TURN_END_POWER.description": "回合結束時召喚一個人偶，持續[blue]{Amount}[/blue]回合。",
   "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.title": "靈肉兩分",
-  "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.description": "回復生命時獲得[blue]{Amount}[/blue]點[gold]格擋[/gold]。"
+  "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.description": "回復生命時獲得[blue]X[/blue]點[gold]格擋[/gold]。",
+  "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.smartDescription": "回復生命時獲得[blue]{Amount}[/blue]點[gold]格擋[/gold]。"
 }

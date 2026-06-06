@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MorimensDoll.Anims;
 using MorimensDoll.Characters;
@@ -15,6 +16,8 @@ public sealed class HealToBlock() : AbstractDollCard(2, CardType.Power, CardRari
     protected override HashSet<CardTag> CanonicalTags => [];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<HealToBlockPower>(2m)];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.Static(StaticHoverTip.Block)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

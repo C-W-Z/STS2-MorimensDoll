@@ -24,6 +24,8 @@ public sealed class HealBlockSelfDiscardAll() : AbstractDollCard(3, CardType.Ski
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => PileType.Hand.GetPile(card.Owner).Cards.Count)
     ];
 
+    public override bool GainsBlock => true;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);

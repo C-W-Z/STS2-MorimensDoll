@@ -61,10 +61,15 @@ public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, Dol
             // 人物选择图标-锁定状态。
             CharacterSelectLockedIconPath: $"{ImageRoot}/Doll_character_select_locked.png",
             // 地图上的角色标记图标、表情轮盘上的角色头像。
-            MapMarkerPath: $"{ImageRoot}/Doll_map_marker.png"));
+            MapMarkerPath: $"{ImageRoot}/Doll_map_marker.png"),
+        Audio: new CharacterAudioAssetSet(
+            AttackSfx: "event:/MorimensDoll/sfx/Doll/Attack",
+            CastSfx: "event:/MorimensDoll/sfx/Doll/Cast",
+            DeathSfx: "event:/MorimensDoll/sfx/Doll/Death"
+        ));
 
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
-    public override string? PlaceholderCharacterId => "ironclad";
+    public override string? PlaceholderCharacterId => "necrobinder";
     // 如果你的人物不需要时间线小故事，加上这句。
     public override bool RequiresEpochAndTimeline => false;
     // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟。

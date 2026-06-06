@@ -5,6 +5,7 @@ using MinionLib.Layout;
 using MorimensDoll.Minion;
 using MorimensDoll.Patches;
 using STS2RitsuLib;
+using STS2RitsuLib.Audio;
 using STS2RitsuLib.Interop;
 using STS2RitsuLib.Patching.Core;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
@@ -46,6 +47,9 @@ public static partial class Entry
         minionLibPatcher.RegisterPatch<MinionGuardianPatch>();
         if (!minionLibPatcher.PatchAll())
             throw new InvalidOperationException("MorimensDoll critical MinionLib-patches failed!");
+
+        FmodStudioDeferredBankRegistration.RegisterBank("res://MorimensDoll/audio/MorimensDoll.bank");
+        FmodStudioDeferredBankRegistration.RegisterStudioGuidMappings("res://MorimensDoll/audio/GUIDs.txt");
 
         // 註冊我們的佈局器，設定 priority: 1 確保它在 DefaultMinionLayout (0) 之前執行
         MinionLayoutManager.Register(new DollMinionLayout(), priority: 1);

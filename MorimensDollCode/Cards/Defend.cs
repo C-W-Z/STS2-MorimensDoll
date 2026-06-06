@@ -20,7 +20,7 @@ public sealed class Defend() : AbstractDollCard(1, CardType.Skill, CardRarity.Ba
     // BlockVar 会绑定到本地化里的 {Block:diff()}，升级时文本会自动显示差值。
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
 
-    public override bool GainsBlock => true;
+    public override bool GainsBlock => true; // 似乎只有加上"格擋"這個HoverTip的效果？還有是否可附魔靈巧
 
     // 打出时的效果逻辑，这里是获得格挡。
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
