@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MinionLib.Utilities;
 using MorimensDoll.Minion;
+using MorimensDoll.Minions;
 
 namespace MorimensDoll.Cards;
 
@@ -10,7 +11,7 @@ public abstract class AbstractMinionCard(int baseCost, CardType type, CardRarity
 {
     protected override HashSet<CardTag> CanonicalTags => [DollCardTag.MinionCmd];
 
-    protected async Task<List<Creature>> CheckMinionExistAndSummon(PlayerChoiceContext choiceContext)
+    protected async Task<IEnumerable<DollMinion>> CheckMinionExistAndSummon(PlayerChoiceContext choiceContext)
     {
         List<Creature>? pets = PetsOrderAccessor.GetRawPetsList(Owner);
         if (pets == null || pets.Count == 0)
@@ -18,6 +19,6 @@ public abstract class AbstractMinionCard(int baseCost, CardType type, CardRarity
             await DollMinionCmd.SummonHalfHP(choiceContext, Owner, this);
             return [];
         }
-        return pets;
+        return pets.Select(p => p.Monster).OfType<DollMinion>();
     }
 }

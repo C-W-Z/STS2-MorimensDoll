@@ -1,14 +1,16 @@
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Minion;
 using MinionLib.RitsuAdapters;
 using MorimensDoll.Anims;
-using MorimensDoll.Powers;
+using MorimensDoll.Minion;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace MorimensDoll.Minions;
@@ -43,6 +45,14 @@ public class DollMinion : ModMinionTemplate
 
         if (options.PrimaryStatAmount is decimal strength && strength > 0m)
             await PowerCmd.Apply<StrengthPower>(choiceContext, self, strength, owner.Creature, options.Source); // 根据传入的参数设置力量
+    }
+
+    public override async Task BeforeSideTurnEndVeryEarly(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (side != Creature.Side || !participants.Contains(Creature))
+            return;
+
+        await DollMinionCmd.AttackRandomEnemy(choiceContext, this, null);
     }
 
     protected override CreatureAnimator? SetupCustomCreatureAnimator(MegaSprite controller)

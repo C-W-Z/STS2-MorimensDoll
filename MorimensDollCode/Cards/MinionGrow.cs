@@ -1,11 +1,11 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MinionLib.Targeting;
 using MorimensDoll.Anims;
 using MorimensDoll.Characters;
+using MorimensDoll.Minions;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
@@ -17,12 +17,12 @@ public sealed class MinionGrow() : AbstractMinionCard(1, CardType.Skill, CardRar
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<Creature> pets = await CheckMinionExistAndSummon(choiceContext);
+        IEnumerable<DollMinion> pets = await CheckMinionExistAndSummon(choiceContext);
 
         foreach (var minion in pets)
         {
-            await CreatureCmd.TriggerAnim(minion, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
-            await CreatureCmd.GainMaxHp(minion, DynamicVars.MaxHp.BaseValue);
+            await CreatureCmd.TriggerAnim(minion.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
+            await CreatureCmd.GainMaxHp(minion.Creature, DynamicVars.MaxHp.BaseValue);
         }
     }
 
