@@ -1,3 +1,6 @@
 [submodule "MorimensDoll/images"]
 	path = MorimensDoll/images
 	url = git@github.com:C-W-Z/STS2-MorimensDoll-images.git
+[submodule "MorimensDoll/fmod"]
+	path = MorimensDoll/fmod
+	url = git@github.com:C-W-Z/STS2-MorimensDoll-fmod.git
