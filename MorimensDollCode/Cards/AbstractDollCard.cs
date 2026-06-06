@@ -16,7 +16,7 @@ public abstract class AbstractDollCard(int baseCost, CardType type, CardRarity r
             if (!Godot.ResourceLoader.Exists(targetPath))
             {
                 // 3. 如果找不到圖，用 MegaCrit 的日誌系統噴一個黃色警告，方便你開主控台看哪張卡沒圖
-                Entry.Logger.Warn($"Missing card art for '{GetType().Name}'. Falling back to placeholder. (Expected path: {targetPath})");
+                Entry.Logger.Debug($"Missing card art for '{GetType().Name}'. Falling back to placeholder. (Expected path: {targetPath})");
 
                 // 4. 自動導向你的 Missing 專用替代圖
                 targetPath = $"{Entry.ResPath}/images/cards/missing.png";
