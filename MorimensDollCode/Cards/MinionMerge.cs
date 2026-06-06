@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MorimensDoll.Anims;
 using MorimensDoll.Characters;
 using MorimensDoll.Minion;
+using MorimensDoll.Minions;
 using MorimensDoll.Targeting;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -17,7 +18,9 @@ public sealed class MinionMerge() : AbstractMinionCard(2, CardType.Skill, CardRa
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CheckMinionExistAndSummon(choiceContext);
+        List<DollMinion> minions = await CheckMinionExistAndSummon(choiceContext);
+        if (minions.Count == 0)
+            return;
 
         await CreatureCmd.TriggerAnim(Owner.Creature, DollSpine.State.Skill2, DollSpine.Skill2AnimDelay);
         await DollMinionCmd.MergeAllDollMinions(choiceContext, Owner, this);
