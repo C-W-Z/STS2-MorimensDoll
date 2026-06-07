@@ -11,7 +11,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace MorimensDoll.Cards;
 
 [RegisterCard(typeof(DollCardPool))]
-public sealed class DoomEnemy() : AbstractDollCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class Doom() : AbstractDollCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [];
 
