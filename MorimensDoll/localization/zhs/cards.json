@@ -44,5 +44,5 @@
   "MORIMENS_DOLL_CARD_DAMAGE_BY_LOST_HP.title": "向死而生",
   "MORIMENS_DOLL_CARD_DAMAGE_BY_LOST_HP.description": "造成{CalculatedDamage:diff()}點傷害，此牌傷害受到你的已損失血量加成。",
   "MORIMENS_DOLL_CARD_DAMAGE_STUN.title": "不及格！",
-  "MORIMENS_DOLL_CARD_DAMAGE_STUN.description": "造成{Damage:diff()}點傷害。[gold]擊暈[/gold]該敵人。\n本場戰鬥中每打出過一張牌或消耗一點能量，耗能減少{Energy:diff()}。"
+  "MORIMENS_DOLL_CARD_DAMAGE_STUN.description": "造成{Damage:diff()}點傷害。[gold]擊暈[/gold]該敵人。\n本場戰鬥中每打出過一張牌或消耗一點{energyPrefix:energyIcons(1)}，耗能減少{Energy:energyIcons()}。"
 }

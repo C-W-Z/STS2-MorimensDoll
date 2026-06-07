@@ -39,6 +39,6 @@ public sealed class HealBlockSelfDiscardAll() : AbstractDollCard(3, CardType.Ski
 
     protected override void OnUpgrade()
     {
-        DynamicVars.CalculationExtra.UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Retain);
     }
 }
