@@ -30,7 +30,7 @@
         <PackageReference Include="Krafs.Publicizer" Version="2.2.1" PrivateAssets="all"/>
         <PackageReference Include="Nothing.STS2RitsuLib.ModAnalyzers" Version="*" PrivateAssets="all"/>
         <!-- 主线 RitsuLib（STS2 0.105.0+），跟踪 NuGet 最新版本。兼容分支和 manifest 版本对齐规则见 README。 -->
-        <PackageReference Include="STS2.RitsuLib" Version="0.4.10" GeneratePathProperty="true"/>
+        <PackageReference Include="STS2.RitsuLib" Version="0.4.13" GeneratePathProperty="true"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -45,7 +45,6 @@
         <Reference Include="Steamworks.NET" HintPath="$(Sts2DataDir)\Steamworks.NET.dll" Private="True"/>
         <!-- Private="False" 可以防止編譯時把 MinionLib.dll 複製到你自己的模組資料夾中造成冗餘 -->
         <Reference Include="MinionLib" HintPath="$(Sts2Dir)\mods\MinionLib\MinionLib.dll" Private="False"/>
-        <Reference Include="MinionLib.RitsuLibAdapters" HintPath="$(Sts2Dir)\mods\MinionLib.RitsuAdapters\MinionLib.RitsuAdapters.dll" Private="False"/>
     </ItemGroup>
 
     <ItemGroup>

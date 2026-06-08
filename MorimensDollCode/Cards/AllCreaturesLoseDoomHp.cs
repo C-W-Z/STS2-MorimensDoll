@@ -41,7 +41,9 @@ public sealed class AllCreaturesLoseDoomHp() : AbstractDollCard(2, CardType.Atta
         {
             // 防禦性檢查，因為前面的受擊可能已經導致後面的怪暴斃了
             if (e == null || !e.IsHittable) continue;
-            await CreatureCmd.Damage(choiceContext, e, e.GetPowerAmount<DoomPower>(), ValueProp.Unblockable, Owner.Creature, this);
+            int amount = e.GetPowerAmount<DoomPower>();
+            if (amount > 0)
+                await CreatureCmd.Damage(choiceContext, e, amount, ValueProp.Unblockable, Owner.Creature, this);
         }
     }
 

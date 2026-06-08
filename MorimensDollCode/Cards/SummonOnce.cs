@@ -2,7 +2,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MorimensDoll.Characters;
-using MorimensDoll.Minion;
+using MorimensDoll.Minions;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Cards;
@@ -15,7 +15,7 @@ public sealed class SummonOnce() : AbstractDollCard(0, CardType.Skill, CardRarit
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new RepeatVar(1)];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Retain];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

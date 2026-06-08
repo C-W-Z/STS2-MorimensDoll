@@ -3,9 +3,9 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Combat;
 using STS2RitsuLib.Patching.Models;
 
-namespace MorimensDoll.Patches;
+namespace MorimensDoll.Patches.Minion;
 
-public class MinionBeforeTurnEndPatch : IPatchMethod
+public class MinionTurnEndPatch : IPatchMethod
 {
     // 1. 填寫 RitsuLib 要求的唯一 ID 與說明
     public static string PatchId => "morimens_doll_minion_before_turn_end";
@@ -14,8 +14,10 @@ public class MinionBeforeTurnEndPatch : IPatchMethod
 
     public static bool IsCritical => false;
 
-    public static ModPatchTarget[] GetTargets() =>
-        [new(typeof(Hook), nameof(Hook.BeforeTurnEnd))];
+    public static ModPatchTarget[] GetTargets() => [
+        new(typeof(Hook), nameof(Hook.BeforeTurnEnd)),
+        new(typeof(Hook), nameof(Hook.AfterTurnEnd))
+    ];
 
     // 3. 實作 Prefix 補丁 (維持 RitsuLib 的規範，名稱必須為 Prefix)
     public static void Prefix(ICombatState combatState, CombatSide side, ref IEnumerable<Creature> participants)

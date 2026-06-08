@@ -10,11 +10,11 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace MorimensDoll.Cards;
 
 [RegisterCard(typeof(DollCardPool))]
-public sealed class EnemyDeathToSummon() : AbstractDollCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+public sealed class EnemyDeathToSummon() : AbstractDollCard(1, CardType.Power, CardRarity.Common, TargetType.Self)
 {
     protected override HashSet<CardTag> CanonicalTags => [];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<EnemyDeathToSummonPower>(1m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<EnemyDeathToSummonPower>(2m)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -24,6 +24,6 @@ public sealed class EnemyDeathToSummon() : AbstractDollCard(2, CardType.Power, C
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars["EnemyDeathToSummonPower"].UpgradeValueBy(1m);
     }
 }

@@ -13,7 +13,7 @@ namespace MorimensDoll.Cards;
 [RegisterCard(typeof(DollCardPool))]
 public sealed class MinionGrow() : AbstractMinionCard(1, CardType.Skill, CardRarity.Common, DollTargetTypes.AllDollMinions)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new MaxHpVar(4m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new MaxHpVar(5m)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -28,6 +28,6 @@ public sealed class MinionGrow() : AbstractMinionCard(1, CardType.Skill, CardRar
 
     protected override void OnUpgrade()
     {
-        DynamicVars.MaxHp.UpgradeValueBy(2m);
+        DynamicVars.MaxHp.UpgradeValueBy(3m);
     }
 }

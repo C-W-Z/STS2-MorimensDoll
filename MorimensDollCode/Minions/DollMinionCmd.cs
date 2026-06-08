@@ -1,26 +1,25 @@
-using System.Reflection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Commands;
 using MinionLib.Minion;
 using MorimensDoll.Anims;
 using MorimensDoll.Minions;
+using MorimensDoll.Utils;
 
-namespace MorimensDoll.Minion;
+namespace MorimensDoll.Minions;
 
 public static class DollMinionCmd
 {
-    public static async Task<Creature> Summon(PlayerChoiceContext choiceContext, Player player, CardModel? cardSource, decimal? maxHp = null, decimal atk = 1m, decimal? hp = null)
+    public static async Task<Creature> Summon(PlayerChoiceContext choiceContext, Player player, CardModel? cardSource, decimal? maxHp = null, decimal? hp = null, decimal? atk = null)
     {
-        return await MinionCmd.AddMinion<DollMinion>(choiceContext, player, new MinionSummonOptions(
+        return await MinionCmd.AddMinion<DollMinion>(player, new MinionSummonOptions(
             MaxHp: maxHp,               // 血量
-            PrimaryStatAmount: atk,     // 力量
-            SecondaryStatAmount: hp,    // 目前血量
+            PrimaryStatAmount: hp,      // 目前血量
+            SecondaryStatAmount: atk,   // 力量
             Source: cardSource,         // 召喚來源（牌）
             Position: MinionPosition.Front)); // 站位但不重要因為 DollMinionLayout 會自動調整
     }
@@ -28,8 +27,9 @@ public static class DollMinionCmd
     public static async Task<Creature> SummonCopy(PlayerChoiceContext choiceContext, Player player, DollMinion origin, CardModel? cardSource)
     {
         var powers = origin.Creature.Powers.ToList();
-        Creature newMinion = await Summon(choiceContext, player, cardSource, origin.Creature.MaxHp, 0, origin.Creature.CurrentHp);
-        await ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
+        Creature newMinion = await Summon(choiceContext, player, cardSource, origin.Creature.MaxHp, origin.Creature.CurrentHp, 0);
+        // TODO: 用PowerCmd.Apply會受到能力加成影響（如力量加成、災厄加成等），要改成更底層的賦予powers
+        await PowerUtils.ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
         return newMinion;
     }
 
@@ -45,11 +45,13 @@ public static class DollMinionCmd
             maxHp += minion.Creature.MaxHp;
             hp += minion.Creature.CurrentHp;
             powers.AddRange([.. minion.Creature.Powers]); // 收集所有能力
+            // TODO: 是否要用殺死這件事情有待商榷，可能會有意外情況，或者導致太強？
             await CreatureCmd.Kill(minion.Creature);
         }
 
-        Creature newMinion = await Summon(choiceContext, player, cardSource, maxHp, 0, hp);
-        await ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
+        Creature newMinion = await Summon(choiceContext, player, cardSource, maxHp, hp, 0);
+        // TODO: 用PowerCmd.Apply會受到能力加成影響（如力量加成、災厄加成等），要改成更底層的賦予powers
+        await PowerUtils.ApplyPowersDynamically(choiceContext, newMinion, powers, player, cardSource);
         return newMinion;
     }
 
@@ -70,66 +72,5 @@ public static class DollMinionCmd
         if (pets == null)
             return [];
         return [.. pets.Select(p => p.Monster).OfType<DollMinion>()];
-    }
-
-    // 效能優化：快取反射結果，避免每次召喚/合體都重新搜尋 MethodInfo
-    private static MethodInfo? _cachedApplyMethod;
-
-    /// <summary>
-    /// 內部共用：精準獲取 PowerCmd.Apply 的單體泛型方法定義
-    /// </summary>
-    private static MethodInfo? GetApplyMethodDefinition()
-    {
-        if (_cachedApplyMethod == null)
-        {
-            _cachedApplyMethod = typeof(PowerCmd).GetMethods()
-                .FirstOrDefault(m => m.Name == "Apply"
-                                  && m.IsGenericMethod
-                                  && m.GetParameters().Length == 6
-                                  && m.GetParameters()[1].ParameterType == typeof(Creature));
-        }
-        return _cachedApplyMethod;
-    }
-
-    /// <summary>
-    /// 共用功能：將指定的複數 Power 動態且依序掛載到目標生物身上
-    /// </summary>
-    public static async Task ApplyPowersDynamically(
-        PlayerChoiceContext choiceContext,
-        Creature target,
-        IEnumerable<PowerModel> powers,
-        Player player,
-        CardModel? cardSource)
-    {
-        if (target == null || powers == null || !powers.Any()) return;
-
-        MethodInfo? applyMethodDefinition = GetApplyMethodDefinition();
-
-        // 安全防禦：萬一未來原版改版導致反射失敗，至少把最核心的力量（Strength）補上去
-        if (applyMethodDefinition == null)
-        {
-            decimal totalStrength = powers.Where(p => p is StrengthPower).Sum(p => p.Amount);
-            if (totalStrength > 0)
-                await PowerCmd.Apply<StrengthPower>(choiceContext, target, totalStrength, player.Creature, cardSource);
-            return;
-        }
-
-        // 依序動態呼叫泛型 Apply
-        foreach (var p in powers)
-        {
-            MethodInfo genericMethod = applyMethodDefinition.MakeGenericMethod(p.GetType());
-
-            object? resultTask = genericMethod.Invoke(null, [
-                choiceContext,
-                target,
-                (decimal)p.Amount,
-                player.Creature,
-                cardSource,
-                false // silent = false
-            ]);
-
-            if (resultTask is Task task)
-                await task;
-        }
     }
 }

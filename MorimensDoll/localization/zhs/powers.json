@@ -3,8 +3,6 @@
   "MORIMENS_DOLL_POWER_MINION_GUARDIAN_POWER.description": "替你吸收未被格擋的攻擊傷害。",
   "MORIMENS_DOLL_POWER_MINION_LIMIT_UP_POWER.title": "人偶上限提升",
   "MORIMENS_DOLL_POWER_MINION_LIMIT_UP_POWER.description": "前排人偶上限提升[blue]{Amount}[/blue]。",
-  "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.title": "攻擊點數",
-  "MORIMENS_DOLL_POWER_MINION_ATTACK_ACTION.description": "本回合可以攻擊[blue]{Amount}[/blue]次。",
   "MORIMENS_DOLL_POWER_MINION_DEATH_TO_DRAW_POWER.title": "殘骸分析",
   "MORIMENS_DOLL_POWER_MINION_DEATH_TO_DRAW_POWER.description": "每當人偶死亡時抽[blue]{Amount}[/blue]張牌。",
   "MORIMENS_DOLL_POWER_MINION_DEATH_TO_DOOM_ENEMIES_POWER.title": "融蝕擴散",
@@ -15,5 +13,9 @@
   "MORIMENS_DOLL_POWER_SUMMON_ON_TURN_END_POWER.description": "回合結束時召喚一個人偶，持續[blue]{Amount}[/blue]回合。",
   "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.title": "靈肉兩分",
   "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.description": "回復生命時獲得[blue]X[/blue]點[gold]格擋[/gold]。",
-  "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.smartDescription": "回復生命時獲得[blue]{Amount}[/blue]點[gold]格擋[/gold]。"
+  "MORIMENS_DOLL_POWER_HEAL_TO_BLOCK_POWER.smartDescription": "回復生命時獲得[blue]{Amount}[/blue]點[gold]格擋[/gold]。",
+  "MORIMENS_DOLL_POWER_TMP_STRENGTH_POWER.title": "臨時力量",
+  "MORIMENS_DOLL_POWER_TMP_STRENGTH_POWER.description": "本回合[gold]力量[/gold]提升[blue]{Amount}[/blue]。",
+  "MORIMENS_DOLL_POWER_TMP_STRENGTH_DOWN_POWER.title": "臨時降力",
+  "MORIMENS_DOLL_POWER_TMP_STRENGTH_DOWN_POWER.description": "本回合[gold]力量[/gold]降低[blue]{Amount:abs()}[/blue]。"
 }

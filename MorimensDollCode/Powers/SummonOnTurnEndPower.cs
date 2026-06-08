@@ -3,7 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MorimensDoll.Minion;
+using MorimensDoll.Minions;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace MorimensDoll.Powers;

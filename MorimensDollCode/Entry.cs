@@ -2,12 +2,11 @@ using System.Reflection;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MinionLib.Layout;
-using MorimensDoll.Minion;
+using MorimensDoll.Minions;
 using MorimensDoll.Patches;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
 using STS2RitsuLib.Interop;
-using STS2RitsuLib.Patching.Core;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace MorimensDoll;
@@ -38,15 +37,7 @@ public static partial class Entry
         // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
-        var lifecyclePatcher = RitsuLibFramework.CreatePatcher(ModId, "lifecycle-patches");
-        lifecyclePatcher.RegisterPatch<MinionBeforeTurnEndPatch>();
-        if (!lifecyclePatcher.PatchAll())
-            throw new InvalidOperationException("MorimensDoll critical lifecycle-patches failed!");
-
-        var minionLibPatcher = RitsuLibFramework.CreatePatcher(ModId, "MinionLib-patches");
-        minionLibPatcher.RegisterPatch<MinionGuardianPatch>();
-        if (!minionLibPatcher.PatchAll())
-            throw new InvalidOperationException("MorimensDoll critical MinionLib-patches failed!");
+        PatchRegister.Register();
 
         FmodStudioDeferredBankRegistration.RegisterBank("res://MorimensDoll/audio/MorimensDoll.bank");
         FmodStudioDeferredBankRegistration.RegisterStudioGuidMappings("res://MorimensDoll/audio/GUIDs.txt");

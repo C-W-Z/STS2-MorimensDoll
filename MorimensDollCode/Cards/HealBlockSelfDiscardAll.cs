@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using MorimensDoll.Anims;
+using MorimensDoll.CardTags;
 using MorimensDoll.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -12,7 +13,7 @@ namespace MorimensDoll.Cards;
 
 [RegisterCard(typeof(DollCardPool))]
 [RegisterCharacterStarterCard(typeof(Doll), 1)]
-public sealed class HealBlockSelfDiscardAll() : AbstractDollCard(3, CardType.Skill, CardRarity.Common, TargetType.Self)
+public sealed class HealBlockSelfDiscardAll() : AbstractDollCard(3, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     protected override HashSet<CardTag> CanonicalTags => [DollCardTag.Heal];
 
@@ -38,6 +39,6 @@ public sealed class HealBlockSelfDiscardAll() : AbstractDollCard(3, CardType.Ski
 
     protected override void OnUpgrade()
     {
-        DynamicVars.CalculationExtra.UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Retain);
     }
 }

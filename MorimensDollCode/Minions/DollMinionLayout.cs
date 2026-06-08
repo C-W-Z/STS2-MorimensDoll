@@ -4,7 +4,7 @@ using MinionLib.Minion;
 using MorimensDoll.Minions;
 using MorimensDoll.Powers;
 
-namespace MorimensDoll.Minion;
+namespace MorimensDoll.Minions;
 
 public class DollMinionLayout : IMinionLayout
 {
