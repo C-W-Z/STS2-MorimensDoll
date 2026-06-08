@@ -1,4 +1,4 @@
-# MorimensDoll
+# Morimens
 
 Languages: [中文](README.md) | English
 
@@ -18,7 +18,7 @@ A copyable, buildable RitsuLib mod template providing a general Godot/C# project
 - [STS2-RitsuLib](https://github.com/BAKAOLC/STS2-RitsuLib): the shared framework library for Slay the Spire 2 mods. This template uses it for content registration, character scaffolding, and Godot resource integration.
 - [RitsuLib Documentation](https://github.com/GlitchedReme/SlayTheSpire2ModdingTutorials/tree/master/RitsuLib): tutorials and examples by file.
 - [Slay the Spire 2 Modding Tutorials site](https://glitchedreme.github.io/SlayTheSpire2ModdingTutorials/index.html): the full tutorial site.
-- Template Wiki (Rider-first): [Chinese Home](https://github.com/alkaid616/MorimensDoll/wiki/Home) | [English Home](https://github.com/alkaid616/MorimensDoll/wiki/Home-EN).
+- Template Wiki (Rider-first): [Chinese Home](https://github.com/alkaid616/Morimens/wiki/Home) | [English Home](https://github.com/alkaid616/Morimens/wiki/Home-EN).
 
 ## Install and Use
 
@@ -37,15 +37,15 @@ dotnet new ritsulibmod -n MyMod
 dotnet new uninstall STS2.RitsuLib.ModTemplate
 ```
 
-`dotnet new ritsulibmod -n MyMod` generates a project called `MyMod` and renames `MorimensDoll`, sample class names, sample resource file names, resource folders, manifest names, namespaces, and localization IDs to match the new name.
+`dotnet new ritsulibmod -n MyMod` generates a project called `MyMod` and renames `Morimens`, sample class names, sample resource file names, resource folders, manifest names, namespaces, and localization IDs to match the new name.
 
 ### Option B: manual copy
 
 1. Copy the whole directory and rename it to your mod name.
-2. Edit `MorimensDoll.json` and update `id`, `name`, `author`, and `description`.
-3. Edit `MorimensDollCode/Entry.cs` and update `ModId`.
+2. Edit `Morimens.json` and update `id`, `name`, `author`, and `description`.
+3. Edit `MorimensCode/Entry.cs` and update `ModId`.
 4. For a full rename, also update the project name and namespace in `.csproj`, `.sln`, and `project.godot`.
-5. Rename the resource directory `MorimensDoll/` to your `ModId`, then update the related `Entry.ResPath` paths in code.
+5. Rename the resource directory `Morimens/` to your `ModId`, then update the related `Entry.ResPath` paths in code.
 
 ## Local Path Configuration
 
@@ -66,7 +66,7 @@ Set these values in `local.props` (the file is in `.gitignore`; do not commit it
 
 > ⚠️ **Important: align the manifest's RitsuLib version with the csproj before release**
 >
-> `dependencies[STS2-RitsuLib].version` in `MorimensDoll.json` **must exactly match** the `STS2.RitsuLib` version your `.csproj` actually compiles against. The template build auto-syncs this dependency version; `min_game_version` and intentional lower runtime-floor declarations still need manual review. See [Pre-release checklist: version alignment](#pre-release-checklist-version-alignment) below for the step-by-step procedure.
+> `dependencies[STS2-RitsuLib].version` in `Morimens.json` **must exactly match** the `STS2.RitsuLib` version your `.csproj` actually compiles against. The template build auto-syncs this dependency version; `min_game_version` and intentional lower runtime-floor declarations still need manual review. See [Pre-release checklist: version alignment](#pre-release-checklist-version-alignment) below for the step-by-step procedure.
 
 ### Current version snapshot (as of 2026-05-22)
 
@@ -112,13 +112,13 @@ The template also references `Nothing.STS2RitsuLib.ModAnalyzers` — an AI-writt
 
 ### Pre-release checklist: version alignment
 
-> **`PackageReference` in `.csproj` only controls compile-time resolution; `dependencies` in `MorimensDoll.json` is what the game loader checks at runtime. The template syncs the `STS2-RitsuLib` dependency version to the resolved NuGet version during build, but `min_game_version` still needs manual review.**
+> **`PackageReference` in `.csproj` only controls compile-time resolution; `dependencies` in `Morimens.json` is what the game loader checks at runtime. The template syncs the `STS2-RitsuLib` dependency version to the resolved NuGet version during build, but `min_game_version` still needs manual review.**
 
 If the manifest is not synced to the newer RitsuLib version you compile against, players with an old RitsuLib will pass the manifest check and crash at runtime due to missing APIs or signature drift. Conversely, an over-tight manifest will reject players who could otherwise run the mod.
 
 Before every release:
 
-1. After build, confirm `dependencies[STS2-RitsuLib].version` in `MorimensDoll.json` has been synced to the resolved `STS2.RitsuLib` version.
+1. After build, confirm `dependencies[STS2-RitsuLib].version` in `Morimens.json` has been synced to the resolved `STS2.RitsuLib` version.
 2. When you switch to a compatibility package (`Compat.0.104.0` / `Compat.0.103.2`), also adjust `min_game_version` to the matching branch. Keep `dependencies[].id` as `STS2-RitsuLib` (compatibility packages expose the same mod id to the loader).
 3. If you intentionally want the manifest version to act as a **runtime floor** (e.g. declaring "`0.3.0+` works"), document this in your release notes and verify the mod runs against the declared floor.
 
@@ -147,14 +147,14 @@ When migrating from an earlier branch (`v0.2.0` ~ `v0.2.26` / STS2 `0.104.0`), c
 
 | Command | Behavior |
 |---|---|
-| `dotnet build .\MorimensDoll.csproj` | Full build: compile + `CopyMod` + `ExportPCK` |
+| `dotnet build .\Morimens.csproj` | Full build: compile + `CopyMod` + `ExportPCK` |
 | `... /p:RunPckExport=false` | Skip PCK export (no `GodotExe` needed) |
 | `... /p:CopyModOnBuild=false` | Skip copying to the game's mods directory (output stays in `bin/`) |
 | `... /p:RunPckExport=false /p:CopyModOnBuild=false` | C# compile validation only |
 
 A full build runs two MSBuild targets after `Build`:
 
-- **`CopyMod`**: copies the DLL and manifest to the game's `mods/MorimensDoll` directory.
+- **`CopyMod`**: copies the DLL and manifest to the game's `mods/Morimens` directory.
 - **`ExportPCK`**: calls `GodotExe` and exports the PCK to the same mod directory.
 
 > `RitsuLibDeployDir` only controls where the RitsuLib framework itself is deployed locally. This mod's DLL, manifest, and PCK are controlled by `ModOutputDir` (default `$(Sts2Dir)/mods/$(MSBuildProjectName)`).
@@ -162,16 +162,16 @@ A full build runs two MSBuild targets after `Build`:
 ## Directory Layout
 
 ```text
-MorimensDoll/
-├── MorimensDollCode/   # C# source
-├── MorimensDoll/       # Godot resources, localization, and placeholder scenes
-├── MorimensDoll.csproj
-├── MorimensDoll.json   # Mod manifest
+Morimens/
+├── MorimensCode/   # C# source
+├── Morimens/       # Godot resources, localization, and placeholder scenes
+├── Morimens.csproj
+├── Morimens.json   # Mod manifest
 ├── project.godot
 └── local.props.template
 ```
 
-`res://MorimensDoll/...` is the Godot/PCK resource path, mapping to the repository resource directory `MorimensDoll/`, **not** to the C# namespace. When you create a project from the NuGet template, these directory names, file names, and namespaces are renamed consistently to match the new mod name.
+`res://Morimens/...` is the Godot/PCK resource path, mapping to the repository resource directory `Morimens/`, **not** to the C# namespace. When you create a project from the NuGet template, these directory names, file names, and namespaces are renamed consistently to match the new mod name.
 
 ## Template Contents
 
@@ -180,7 +180,7 @@ MorimensDoll/
 | Property | Value |
 |---|---|
 | Type | `Doll` |
-| Expected ID | `MORIMENS_DOLL_CHARACTER_DOLL` |
+| Expected ID | `MORIMENS_CHARACTER_DOLL` |
 | Starter deck | 4 × `Strike`, 4 × `Defend`, 1 × `SilverTech` |
 | Assets | Configured via `CharacterAssetProfile`. The template only specifies static placeholder assets; unspecified audio, trail, transition, etc. fall back through `PlaceholderCharacterId` |
 
@@ -188,39 +188,39 @@ MorimensDoll/
 
 | Type | Pool | Expected ID |
 |---|---|---|
-| `Strike` (attack) | character card pool | `MORIMENS_DOLL_CARD_STRIKE` |
-| `Defend` (skill) | character card pool | `MORIMENS_DOLL_CARD_DEFEND` |
-| `SilverTech` | `DollRelicPool` | `MORIMENS_DOLL_RELIC_SILVER_TECH` |
+| `Strike` (attack) | character card pool | `MORIMENS_CARD_STRIKE` |
+| `Defend` (skill) | character card pool | `MORIMENS_CARD_DEFEND` |
+| `SilverTech` | `DollRelicPool` | `MORIMENS_RELIC_SILVER_TECH` |
 
 ### Static placeholder assets
 
-**Images** (`res://MorimensDoll/images/...`):
+**Images** (`res://Morimens/images/...`):
 
 - `cards/Strike.png`, `cards/Defend.png`: sample card art.
 - `relics/SilverTech.png`: sample relic icon.
-- `characters/MorimensDoll_character_*.png`: character icons, select art, map marker, and energy icons.
+- `characters/Morimens_character_*.png`: character icons, select art, map marker, and energy icons.
 
-**Scenes** (`res://MorimensDoll/scenes/characters/...`):
+**Scenes** (`res://Morimens/scenes/characters/...`):
 
 | Scene | Purpose | Placeholder structure |
 |---|---|---|
-| `MorimensDoll_character.tscn` | Combat character | `%Visuals`, `%Bounds`, `%IntentPos`, `%CenterPos`, `%TalkPos` |
-| `MorimensDoll_energy_counter.tscn` | Energy counter | `%EnergyVfxBack`, `%Layers`, `%RotationLayers`, `%EnergyVfxFront`, `Label` |
-| `MorimensDoll_merchant.tscn` | Merchant | — |
-| `MorimensDoll_rest_site.tscn` | Rest site | `%ControlRoot`, `%SelectionReticle`, `%Hitbox`, `%ThoughtBubbleRight`, `%ThoughtBubbleLeft` |
-| `MorimensDoll_character_select_bg.tscn` | Character select background | — |
+| `Morimens_character.tscn` | Combat character | `%Visuals`, `%Bounds`, `%IntentPos`, `%CenterPos`, `%TalkPos` |
+| `Morimens_energy_counter.tscn` | Energy counter | `%EnergyVfxBack`, `%Layers`, `%RotationLayers`, `%EnergyVfxFront`, `Label` |
+| `Morimens_merchant.tscn` | Merchant | — |
+| `Morimens_rest_site.tscn` | Rest site | `%ControlRoot`, `%SelectionReticle`, `%Hitbox`, `%ThoughtBubbleRight`, `%ThoughtBubbleLeft` |
+| `Morimens_character_select_bg.tscn` | Character select background | — |
 
 These resources only exist to make the template visible and replaceable; they do not try to reproduce vanilla animation quality. After copying the template, replace them with your own assets. If you change paths, update the corresponding `AssetProfile` fields.
 
 ## Manifest Format
 
-`MorimensDoll.json` is the mod manifest. The game loader reads it at startup to identify the mod, check dependencies, and decide whether to load. Full example:
+`Morimens.json` is the mod manifest. The game loader reads it at startup to identify the mod, check dependencies, and decide whether to load. Full example:
 
 ```json
 {
-  "id": "MorimensDoll",
-  "name": "MorimensDoll",
-  "pck_name": "MorimensDoll",
+  "id": "Morimens",
+  "name": "Morimens",
+  "pck_name": "Morimens",
   "author": "Author",
   "description": "A starter Slay the Spire 2 mod template built on RitsuLib.",
   "version": "0.0.0",

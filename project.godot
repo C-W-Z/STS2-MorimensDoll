@@ -10,12 +10,12 @@ config_version=5
 
 [application]
 
-config/name="MorimensDoll"
+config/name="Morimens"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 
 [dotnet]
 
-project/assembly_name="MorimensDoll"
+project/assembly_name="Morimens"
 
 [rendering]
 
