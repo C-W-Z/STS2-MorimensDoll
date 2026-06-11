@@ -1,16 +1,9 @@
 using Godot;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Characters;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.ValueProps;
 using Morimens.Anims;
-using Morimens.ExEnergy;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Characters;
 using STS2RitsuLib.Scaffolding.Godot;
@@ -18,7 +11,7 @@ using STS2RitsuLib.Scaffolding.Godot;
 namespace Morimens.Characters;
 
 [RegisterCharacter]
-public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, DollPotionPool>, ISecondaryResourceHookListener
+public sealed class Doll : MorimensCharacter<DollCardPool, DollRelicPool, DollPotionPool>
 {
     public static readonly Color ThemeColor = new(0.42f, 0.65f, 0.72f);
 
@@ -43,6 +36,9 @@ public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, Dol
     // 初始血量和金币。
     public override int StartingHp => 58;
     public override int StartingGold => 99;
+
+    // 基礎狂氣上限
+    public override int BaseAliemus => 100;
 
     // CharacterAssetProfile 按类别拆分。你只写需要替换的部分，其他字段会保留回退。
     // AssetProfile 只指定模板自带的静态占位资源；没有复制的音频、拖尾、转场等资源继续从占位角色回退。
@@ -107,19 +103,5 @@ public sealed class Doll : ModCharacterTemplate<DollCardPool, DollRelicPool, Dol
     protected override CreatureAnimator? SetupCustomCreatureAnimator(MegaSprite controller)
     {
         return DollSpine.GetCreatureAnimator(controller);
-    }
-
-    public decimal ModifyMaxSecondaryResource(SecondaryResourceMaxContext context, decimal amount)
-    {
-        if (context.Definition.Id == ExEnergyManager.AliemusId)
-            return amount + 100 - (ExEnergyManager.AliemusDefinition.BaseMaxAmount ?? 0);
-        return amount;
-    }
-
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
-    {
-        Entry.Logger.Debug($"AfterDamageReceived: {target.Player}");
-        // 获得 5 点狂氣（会经过 Gain Hook 修正）
-        await SecondaryResourceCmd.Gain(target.Player, ExEnergyManager.AliemusId, 1, this);
     }
 }

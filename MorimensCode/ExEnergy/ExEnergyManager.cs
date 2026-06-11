@@ -106,15 +106,35 @@ public static class ExEnergyManager
         // );
 
         // 限定仅对特定角色始终显示
-        registry.AlwaysShowInCombatUiForCharacter<Doll>(AliemusDefinition.LocalId);
-        registry.AlwaysShowInCombatUiForCharacter<Doll>(KeyflareDefinition.LocalId);
+        // registry.AlwaysShowInCombatUiForCharacter<Doll>(AliemusDefinition.LocalId);
+        // registry.AlwaysShowInCombatUiForCharacter<Doll>(KeyflareDefinition.LocalId);
+
+        registry.RegisterCombatUiAlwaysVisibleWhen(AliemusDefinition.LocalId, IsMorimensCharacter);
+        registry.RegisterCombatUiAlwaysVisibleWhen(KeyflareDefinition.LocalId, IsMorimensCharacter);
+
         // 永远显示（不受角色限制）
         // registry.AlwaysShowInCombatUi(AliemusDefinition.LocalId);
 
         RitsuLibFramework.SubscribeLifecycle<CardsFlushedEvent>(async evt =>
         {
             Entry.Logger.Debug($"回合結束：{evt.Player}");
+            // TODO: 会经过 Gain Hook 修正，要改掉
             await SecondaryResourceCmd.Gain(evt.Player, AliemusId, 5, null);
         });
+    }
+
+    private static bool IsMorimensCharacter(SecondaryResourceCombatVisibilityContext context)
+    {
+        if (context.Player?.Character == null) return false;
+
+        var type = context.Player.Character.GetType();
+        while (type != null && type != typeof(object))
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(MorimensCharacter<,,>))
+                return true;
+
+            type = type.BaseType;
+        }
+        return false;
     }
 }
