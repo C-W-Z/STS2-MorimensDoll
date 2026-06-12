@@ -1,4 +1,4 @@
-using Morimens.Patches.Exnergy;
+using Morimens.Patches.ExEnergy;
 using Morimens.Patches.Hooks;
 using Morimens.Patches.Minion;
 using STS2RitsuLib;

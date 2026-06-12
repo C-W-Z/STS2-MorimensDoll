@@ -1,0 +1,6 @@
+{
+    "MORIMENS_SECONDARY_RESOURCE_ALIEMUS.title": "狂氣",
+    "MORIMENS_SECONDARY_RESOURCE_ALIEMUS.description": "每回合結束時獲得[blue]5[/blue][gold]狂氣[/gold]。跨戰鬥保留。最多可儲存[blue]2[/blue]倍[gold]狂氣[/gold]上限的[gold]狂氣[/gold]。滿足[gold]狂氣[/gold]上限後可右鍵點擊此圖標釋放[gold]狂氣爆發[/gold]。擁有[blue]2[/blue]倍上限的[gold]狂氣[/gold]時將會改為釋放[gold]超限爆發[/gold]。",
+    "MORIMENS_SECONDARY_RESOURCE_KEYFLARE.title": "銀鑰",
+    "MORIMENS_SECONDARY_RESOURCE_KEYFLARE.description": "打出卡牌時每花費[blue]1[/blue][gold]能量[/gold]獲得[blue]30[/blue][gold]銀鑰[/gold]。跨戰鬥保留。最多可儲存[blue]2[/blue]倍[gold]銀鑰[/gold]上限的[gold]銀鑰[/gold]。滿足[gold]銀鑰[/gold]上限後可右鍵點擊此圖標釋放[gold]鑰令[/gold]。"
+}

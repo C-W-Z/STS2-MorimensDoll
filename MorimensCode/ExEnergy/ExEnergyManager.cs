@@ -1,10 +1,13 @@
+using System.Reflection;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using Morimens.Characters;
 using STS2RitsuLib;
 using STS2RitsuLib.Combat.SecondaryResources;
+using STS2RitsuLib.Scaffolding.Godot.NodeAttachments;
 using STS2RitsuLib.Ui.Toast;
 
 namespace Morimens.ExEnergy;
@@ -40,7 +43,15 @@ public static class ExEnergyManager
         ));
         KeyflareId = KeyflareDefinition.Id;
 
-        // 在 ModResources.Register() 中追加：
+        // 限定仅对特定角色始终显示
+        // registry.AlwaysShowInCombatUiForCharacter<Doll>(AliemusDefinition.LocalId);
+        // registry.AlwaysShowInCombatUiForCharacter<Doll>(KeyflareDefinition.LocalId);
+
+        // registry.RegisterCombatUiAlwaysVisibleWhen(AliemusDefinition.LocalId, IsMorimensCharacter);
+        // registry.RegisterCombatUiAlwaysVisibleWhen(KeyflareDefinition.LocalId, _ => false);
+
+        // 永远显示（不受角色限制）
+        // registry.AlwaysShowInCombatUi(AliemusDefinition.LocalId);
 
         // 战斗计数器。使用的图标就是你注册时提供的图标
         registry.RegisterCombatUi(
@@ -56,7 +67,10 @@ public static class ExEnergyManager
                     IconStyle = SecondaryResourceIconStyle.Default with
                     {
                         Size = new Vector2(80, 80),
-                        HoverTip = SecondaryResourceHoverTipStyle.Default,
+                        HoverTip = SecondaryResourceHoverTipStyle.Default with
+                        {
+                            ScreenOffset = new Vector2(150, -50),
+                        }
                     },
                 });
                 // 自由指定位置。例如这里我们找到能量计数器的位置，放在它旁边
@@ -65,7 +79,13 @@ public static class ExEnergyManager
                 SetupExEnergyUi(row);
                 return row;
             },
-            ctx => ctx.Node.Bind(ctx.Player)
+            ctx =>
+            {
+                // 只綁定在喚醒體身上
+                // TODO: 會有問題是原版角色和其他模組角色如果拿到了喚醒體的牌，獲得狂氣後也無法顯示
+                if (ctx.Player?.Character is IAwaker)
+                    ctx.Node.Bind(ctx.Player);
+            }
         );
 
         // TODO: NSecondaryResourceIcon._Ready()時將Icon改成各個鑰令的圖案
@@ -82,7 +102,10 @@ public static class ExEnergyManager
                     IconStyle = SecondaryResourceIconStyle.Default with
                     {
                         Size = new Vector2(80, 80),
-                        HoverTip = SecondaryResourceHoverTipStyle.Default,
+                        HoverTip = SecondaryResourceHoverTipStyle.Default with
+                        {
+                            ScreenOffset = new Vector2(150, -50),
+                        }
                     },
                 });
                 // 自由指定位置。例如这里我们找到能量计数器的位置，放在它旁边
@@ -90,7 +113,13 @@ public static class ExEnergyManager
                 row.Position = energyCounter.Position + new Vector2(-80, -120);
                 return row;
             },
-            ctx => ctx.Node.Bind(ctx.Player)
+            ctx =>
+            {
+                // 只綁定在喚醒體身上
+                // TODO: 會有問題是原版角色和其他模組角色如果拿到了喚醒體的牌，獲得狂氣後也無法顯示
+                if (ctx.Player?.Character is IAwaker)
+                    ctx.Node.Bind(ctx.Player);
+            }
         );
 
         // 卡牌面上的次级资源费用显示。使用的图标就是你注册时提供的图标
@@ -111,26 +140,37 @@ public static class ExEnergyManager
         //     ctx => ctx.Node.Refresh(ctx)
         // );
 
-        // 限定仅对特定角色始终显示
-        // registry.AlwaysShowInCombatUiForCharacter<Doll>(AliemusDefinition.LocalId);
-        // registry.AlwaysShowInCombatUiForCharacter<Doll>(KeyflareDefinition.LocalId);
-
-        registry.RegisterCombatUiAlwaysVisibleWhen(AliemusDefinition.LocalId, IsMorimensCharacter);
-        registry.RegisterCombatUiAlwaysVisibleWhen(KeyflareDefinition.LocalId, IsMorimensCharacter);
-
-        // 永远显示（不受角色限制）
-        // registry.AlwaysShowInCombatUi(AliemusDefinition.LocalId);
-
         RitsuLibFramework.SubscribeLifecycle<CardsFlushedEvent>(async evt =>
         {
             Entry.Logger.Debug($"回合結束：{evt.Player}");
+            if (evt.Player.Character is not IAwaker)
+                return;
             // TODO: 会经过 Gain Hook 修正，要改掉
             await SecondaryResourceCmd.Gain(evt.Player, AliemusId, 5, null);
         });
+
+        // 當 NCombatUi 生成時，自動把我們的 SkillConfirmationDialog 掛進去
+        ModNodeAttachmentRegistry.For(Entry.ModId)
+            .RegisterReadyChild<NCombatUi, SkillConfirmationDialog>(
+                "skill_confirm_dialog",
+                static _ => new SkillConfirmationDialog(),
+                static (parent, node) =>
+                {
+                    // 讓彈窗鋪滿整個戰鬥 UI 或者是固定大小
+                    node.Position = Vector2.Zero;
+                    node.Size = parent.Size;
+                },
+                new NodeAttachmentOptions
+                {
+                    Name = "SkillConfirmationDialog",
+                    Order = 99, // 數字大一點，確保渲染在最上層
+                    DuplicatePolicy = NodeAttachmentDuplicatePolicy.ReuseExistingByName
+                });
     }
 
     private static bool IsMorimensCharacter(SecondaryResourceCombatVisibilityContext context)
     {
+        Entry.Logger.Debug($"IsMorimensCharacter: {context.Player?.Character}, {context.Player?.Character is IAwaker}");
         return context.Player?.Character is IAwaker;
     }
 
@@ -155,16 +195,47 @@ public static class ExEnergyManager
                 Entry.Logger.Debug("[ExEnergy] 成功找到內建 Icon 節點，開始綁定右鍵事件！");
 
                 // 直接把右鍵監聽掛在 Icon 上
-                realIcon.GuiInput += async (inputEvent) =>
+                realIcon.GuiInput += (inputEvent) => // 🔴 這裡拿掉 async，因為改在內部 Callback 處理
                 {
                     if (inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
                     {
+                        Entry.Logger.Debug("[ExEnergy] 檢測到右鍵點擊！準備彈出確認 UI！");
+
                         // 告訴 Godot 這個事件我們處理了，不要再往後傳
                         realIcon.AcceptEvent();
 
-                        Entry.Logger.Debug("[ExEnergy] 檢測到右鍵點擊！準備釋放技能！");
+                        // ======= 🛠️ 這裡加入「尋找彈窗並打開」的邏輯 =======
 
-                        await TryTriggerExalt();
+                        // 1. 沿著 UI 樹往上爬，找出頂層的 NCombatUi
+                        Node? current = counter;
+                        while (current != null && current is not NCombatUi)
+                        {
+                            current = current.GetParent();
+                        }
+
+                        if (current is NCombatUi combatUi)
+                        {
+                            // 2. 透過 RitsuLib 的附加節點系統，抓到我們掛在戰鬥主畫面上的彈窗
+                            if (ModNodeAttachmentRegistry.For(Entry.ModId)
+                                .TryGetAttached<NCombatUi, SkillConfirmationDialog>(combatUi, "skill_confirm_dialog", out var dialog))
+                            {
+                                // 3. 亮出彈窗！把「點下確認後才要執行的非同步技能」包成 async lambda 丟進去
+                                dialog.Open(async () =>
+                                {
+                                    Entry.Logger.Debug("[ExEnergy] 玩家點擊了確認！開始釋放技能！");
+                                    await TryTriggerExalt();
+                                });
+                            }
+                            else
+                            {
+                                Entry.Logger.Error("[ExEnergy] 錯誤：在 NCombatUi 上找不到註冊的 skill_confirm_dialog 附加節點！");
+                            }
+                        }
+                        else
+                        {
+                            Entry.Logger.Error("[ExEnergy] 錯誤：找不到 NCombatUi 父節點，無法掛載彈窗！");
+                        }
+                        // =================================================
                     }
                 };
             }
@@ -193,13 +264,13 @@ public static class ExEnergyManager
             RitsuToastService.Show(new RitsuToastRequest(
                 body: $"需要{maxAliemus}點狂氣才能釋放狂氣爆發。", // 正文，必填
                 title: "狂氣不足", // 标题，可空
-                // image: null, // 左侧图片，可空
+                               // image: null, // 左侧图片，可空
                 level: RitsuToastLevel.Warning,
                 durationSeconds: 3.0, // 显示秒数，null 用默认 3.5 秒
-                // onClick: () => Entry.Logger.Info(""), // 点击正文时触发，可空
-                // Fade：仅淡入淡出
-                // FadeSlide：淡入淡出并滑动，全局默认
-                // FadeScale：淡入淡出并缩放
+                                      // onClick: () => Entry.Logger.Info(""), // 点击正文时触发，可空
+                                      // Fade：仅淡入淡出
+                                      // FadeSlide：淡入淡出并滑动，全局默认
+                                      // FadeScale：淡入淡出并缩放
                 animationOverride: RitsuToastAnimationPreset.FadeSlide
             ));
             return;
