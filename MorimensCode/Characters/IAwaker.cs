@@ -8,8 +8,8 @@ public interface IAwaker
     int BaseKeyflare { get; }
     string ExaltTitle { get; }
     string ExaltDescription { get; }
-    Task Exalt(Player player);
-    string SuperExaltTitle { get; }
-    string SuperExaltDescription { get; }
-    Task SuperExalt(Player player);
+    Task Exalt();
+    string OverExaltTitle { get; }
+    string OverExaltDescription { get; }
+    Task OverExalt();
 }

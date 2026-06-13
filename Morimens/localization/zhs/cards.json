@@ -1,6 +1,8 @@
 {
-  "MORIMENS_CARD_DOLL_EXALT.title": "狂氣爆發：理性，真理與現實",
-  "MORIMENS_CARD_DOLL_EXALT.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Damage:diff()}點生命，其他玩家獲得{Aliemus:diff()}[gold]狂氣[/gold]。",
+  "MORIMENS_EXALT_DOLL.title": "狂氣爆發：理性，真理與現實",
+  "MORIMENS_EXALT_DOLL.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Heal:diff()}點生命，其他玩家獲得{Aliemus:diff()}[gold]狂氣[/gold]。",
+  "MORIMENS_OVER_EXALT_DOLL.title": "超限爆發：心智分析",
+  "MORIMENS_OVER_EXALT_DOLL.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Heal:diff()}點生命，其他玩家獲得{Aliemus:diff()}[gold]狂氣[/gold]。接下來{Turn:diff()}回合每回合開始時所有友方回復{Heal:diff()}點生命。",
   "MORIMENS_CARD_STRIKE.title": "打擊",
   "MORIMENS_CARD_STRIKE.description": "造成{Damage:diff()}點傷害。\n獲得{Aliemus:secondaryResourceIcons()}。",
   "MORIMENS_CARD_DEFEND.title": "防禦",

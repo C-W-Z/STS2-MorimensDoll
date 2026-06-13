@@ -25,12 +25,12 @@ public abstract class Awaker<TCardPool, TRelicPool, TPotionPool> : ModCharacterT
     // ─── 快取欄位 ───
     private CombatState? _cachedCombatState;
     private AbstractExaltCard? _cachedExaltCard;
-    private AbstractExaltCard? _cachedSuperExaltCard;
+    private AbstractExaltCard? _cachedOverExaltCard;
 
     // ─── 工廠方法 (Factory Methods) ───
     // 子類別只需要實作這兩個方法，回傳對應的卡牌範本即可
     protected abstract AbstractExaltCard CreateExaltCardInstance();
-    protected abstract AbstractExaltCard CreateSuperExaltCardInstance();
+    protected abstract AbstractExaltCard CreateOverExaltCardInstance();
 
     // ─── 核心輔助方法：獲取並動態更新快取的卡牌 ───
     protected AbstractExaltCard GetExaltCard()
@@ -57,34 +57,34 @@ public abstract class Awaker<TCardPool, TRelicPool, TPotionPool> : ModCharacterT
         return _cachedExaltCard;
     }
 
-    protected AbstractExaltCard GetSuperExaltCard()
+    protected AbstractExaltCard GetOverExaltCard()
     {
         var combatState = CombatManager.Instance._state;
 
-        if (_cachedSuperExaltCard == null || _cachedCombatState != combatState)
+        if (_cachedOverExaltCard == null || _cachedCombatState != combatState)
         {
             _cachedCombatState = combatState;
-            _cachedSuperExaltCard = CreateSuperExaltCardInstance();
+            _cachedOverExaltCard = CreateOverExaltCardInstance();
         }
 
-        _cachedSuperExaltCard.UpgradePreviewType = CardUpgradePreviewType.Combat;
+        _cachedOverExaltCard.UpgradePreviewType = CardUpgradePreviewType.Combat;
 
         if (combatState != null)
         {
-            _cachedSuperExaltCard.Owner ??= LocalContext.GetMe(combatState)!;
-            _cachedSuperExaltCard.DynamicVars.ClearPreview();
-            _cachedSuperExaltCard.UpdateDynamicVarPreview(CardPreviewMode.Normal, null, _cachedSuperExaltCard.DynamicVars);
+            _cachedOverExaltCard.Owner ??= LocalContext.GetMe(combatState)!;
+            _cachedOverExaltCard.DynamicVars.ClearPreview();
+            _cachedOverExaltCard.UpdateDynamicVarPreview(CardPreviewMode.Normal, null, _cachedOverExaltCard.DynamicVars);
         }
 
-        return _cachedSuperExaltCard;
+        return _cachedOverExaltCard;
     }
 
     public virtual string ExaltTitle => GetExaltCard().Title;
     public virtual string ExaltDescription => GetExaltCard().GetDescriptionForPile(PileType.Hand);
-    public virtual async Task Exalt(Player player) => await GetExaltCard().Execute(player);
-    public virtual string SuperExaltTitle => GetSuperExaltCard().Title;
-    public virtual string SuperExaltDescription => GetSuperExaltCard().GetDescriptionForPile(PileType.Hand);
-    public virtual async Task SuperExalt(Player player) => await GetSuperExaltCard().Execute(player);
+    public virtual async Task Exalt() => await GetExaltCard().Execute();
+    public virtual string OverExaltTitle => GetOverExaltCard().Title;
+    public virtual string OverExaltDescription => GetOverExaltCard().GetDescriptionForPile(PileType.Hand);
+    public virtual async Task OverExalt() => await GetOverExaltCard().Execute();
 
     public decimal ModifyMaxSecondaryResource(SecondaryResourceMaxContext context, decimal amount)
     {

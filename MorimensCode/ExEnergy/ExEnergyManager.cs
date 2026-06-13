@@ -24,7 +24,7 @@ public static class ExEnergyManager
         public Func<IAwaker, int, int, int> GetActualCost { get; init; } = null!;
         public Func<IAwaker, int, int, string> GetTitle { get; init; } = null!;
         public Func<IAwaker, int, int, string> GetDescription { get; init; } = null!;
-        public Func<IAwaker, int, int, Func<IAwaker, Player, Task>> GetExecuteCoreAction { get; init; } = null!;
+        public Func<IAwaker, int, int, Func<IAwaker, Task>> GetExecuteCoreAction { get; init; } = null!;
 
         public LocString ToastTitle { get; init; } = null!;
         public LocString ToastBody { get; init; } = null!;
@@ -156,15 +156,15 @@ public static class ExEnergyManager
 
             // 達2倍上限切換為超限爆發品類，否則為一般狂氣爆發
             GetTitle = (awaker, current, max) =>
-                current >= max * 2 ? awaker.SuperExaltTitle : awaker.ExaltTitle,
+                current >= max * 2 ? awaker.OverExaltTitle : awaker.ExaltTitle,
 
             GetDescription = (awaker, current, max) =>
-                current >= max * 2 ? awaker.SuperExaltDescription : awaker.ExaltDescription,
+                current >= max * 2 ? awaker.OverExaltDescription : awaker.ExaltDescription,
 
             GetExecuteCoreAction = (awaker, current, max) =>
                 current >= max * 2
-                    ? (a, p) => a.SuperExalt(p)
-                    : (a, p) => a.Exalt(p),
+                    ? a => a.OverExalt()
+                    : a => a.Exalt(),
 
             ToastTitle = new(ToastLocTable, "ALIEMUS_INSUFFICIENT.title"),
             ToastBody = new(ToastLocTable, "ALIEMUS_INSUFFICIENT.description")
@@ -177,9 +177,9 @@ public static class ExEnergyManager
 
             // 永遠只消耗 1 倍上限
             GetActualCost = (awaker, current, max) => max,
-            GetTitle = (awaker, current, max) => awaker.SuperExaltTitle,
-            GetDescription = (awaker, current, max) => awaker.SuperExaltDescription,
-            GetExecuteCoreAction = (awaker, current, max) => (a, p) => a.SuperExalt(p),
+            GetTitle = (awaker, current, max) => awaker.OverExaltTitle,
+            GetDescription = (awaker, current, max) => awaker.OverExaltDescription,
+            GetExecuteCoreAction = (awaker, current, max) => a => a.OverExalt(),
 
             ToastTitle = new(ToastLocTable, "KEYFLARE_INSUFFICIENT.title"),
             ToastBody = new(ToastLocTable, "KEYFLARE_INSUFFICIENT.description")
@@ -282,7 +282,7 @@ public static class ExEnergyManager
             dialog.Open(title, description, async () =>
             {
                 await SecondaryResourceCmd.Lose(player, context.ResourceId, requiredAmount);
-                await executeAction(awaker, player);
+                await executeAction(awaker);
             });
         }
     }
