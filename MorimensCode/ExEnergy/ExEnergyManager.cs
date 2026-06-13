@@ -159,9 +159,9 @@ public static class ExEnergyManager
     {
         // 當 NCombatUi 生成時，自動把我們的 SkillConfirmationDialog 掛進去
         ModNodeAttachmentRegistry.For(Entry.ModId)
-            .RegisterReadyChild<NCombatUi, SkillConfirmationDialog>(
+            .RegisterReadyChild<NCombatUi, ConfirmationUi>(
                 "skill_confirm_dialog",
-                static _ => new SkillConfirmationDialog(),
+                static _ => new ConfirmationUi(),
                 static (parent, node) =>
                 {
                     // 讓彈窗鋪滿整個戰鬥 UI 或者是固定大小
@@ -262,7 +262,7 @@ public static class ExEnergyManager
         return node as NCombatUi;
     }
 
-    private static bool TryGetConfirmationDialog(NCombatUi combatUi, out SkillConfirmationDialog dialog)
+    private static bool TryGetConfirmationDialog(NCombatUi combatUi, out ConfirmationUi dialog)
     {
         return ModNodeAttachmentRegistry.For(Entry.ModId)
             .TryGetAttached(combatUi, "skill_confirm_dialog", out dialog);

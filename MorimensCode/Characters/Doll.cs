@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -116,16 +117,13 @@ public sealed class Doll : Awaker<DollCardPool, DollRelicPool, DollPotionPool>
         return DollSpine.GetCreatureAnimator(controller);
     }
 
-    private readonly ExSkillModel _exaltSkill = new("characters", "MORIMENS_CHARACTER_DOLL.EXALT.description", [new DamageVar(5m, ValueProp.Move)]);
-    private readonly ExSkillModel _superExaltSkill = new("characters", "MORIMENS_CHARACTER_DOLL.SUPER_EXALT.description", [new DamageVar(5m, ValueProp.Move)]);
-
     public override string ExaltTitle => LocManager.Instance.GetTable("characters").GetRawText("MORIMENS_CHARACTER_DOLL.EXALT.title");
 
-    public override string ExaltDescription => _exaltSkill.GetDescription(Dummy);
+    public override string ExaltDescription => GetExaltDescriptionText();
 
     public override string SuperExaltTitle => LocManager.Instance.GetTable("characters").GetRawText("MORIMENS_CHARACTER_DOLL.SUPER_EXALT.title");
 
-    public override string SuperExaltDescription => _superExaltSkill.GetDescription(Dummy);
+    public override string SuperExaltDescription => GetExaltDescriptionText();
 
     public override async Task Exalt(Player player)
     {
@@ -140,26 +138,50 @@ public sealed class Doll : Awaker<DollCardPool, DollRelicPool, DollPotionPool>
             if (!LocalContext.IsMe(ally))
                 await SecondaryResourceCmd.Gain(ally, ExEnergyManager.AliemusId, 20, this);
 
-        await DamageCmd.Attack(_exaltSkill.DynamicVars.Damage.BaseValue)
-            .FromCard(Dummy)
+        // 🔴 實戰關鍵：直接抓取這張衍生牌被 Power（如力量、增傷等）完美加成後的 PreviewValue 作為實際傷害！
+        var card = GetExaltCard();
+
+        await DamageCmd.Attack(card.DynamicVars.Damage.BaseValue)
+            .FromCard(card)
             .TargetingRandomOpponents(CombatManager.Instance._state)
             .Execute(null);
     }
 
-    private CardModel Dummy
-    {
-        get
-        {
-            var card = ModelDb.Get<DummyCard>().ToMutable();
-            card.Owner = LocalContext.GetMe(CombatManager.Instance._state);
-            return card;
-        }
-    }
-
     public override async Task SuperExalt(Player player) { }
 
-    public class DummyCard() : AbstractDollCard(0, CardType.None, CardRarity.None, TargetType.None)
+
+    /// <summary>
+    /// 核心輔助方法：獲取一張綁定了當前戰鬥狀態、且完美跑完 Power 加成邏輯的虛擬卡牌
+    /// </summary>
+    private CardModel GetExaltCard(Creature? target = null)
     {
-        protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, ValueProp.Move)];
+        var card = ModelDb.Get<DollExalt>().ToMutable();
+        card.UpgradePreviewType = CardUpgradePreviewType.Combat; // Important!
+        var combatState = CombatManager.Instance._state;
+
+        if (combatState != null)
+        {
+            // 🔴 核心修正：必須把擁有者、戰鬥狀態、戰役狀態全部餵給卡牌
+            card.Owner = LocalContext.GetMe(combatState);
+            // card.CombatState = combatState;
+            // card.RunState = combatState.RunState;
+
+            // 🔴 呼叫原版管線：先清空預覽，再觸發 Global Hooks 計算出考慮 Buff 後的 PreviewValue
+            card.DynamicVars.ClearPreview();
+            card.UpdateDynamicVarPreview(CardPreviewMode.Normal, target, card.DynamicVars);
+        }
+        return card;
+    }
+
+    private string GetExaltDescriptionText()
+    {
+        var card = GetExaltCard();
+        LocString description = new("characters", "MORIMENS_CHARACTER_DOLL.EXALT.description");
+
+        // 🔴 完美複用現有的 AddTo 接口！直接把這張牌已經動態計算好的變數組注入 LocString
+        card.DynamicVars.AddTo(description);
+
+        description.Add("InCombat", CombatManager.Instance.IsInProgress);
+        return description.GetFormattedText();
     }
 }
