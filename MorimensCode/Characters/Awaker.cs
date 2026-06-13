@@ -1,11 +1,13 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Powers.Patches;
+using Morimens.Cards;
 using Morimens.ExEnergy;
 using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Scaffolding.Characters;
@@ -19,12 +21,70 @@ public abstract class Awaker<TCardPool, TRelicPool, TPotionPool> : ModCharacterT
 {
     public virtual int BaseAliemus => 100;
     public virtual int BaseKeyflare => 1000;
-    public abstract string ExaltTitle { get; }
-    public abstract string ExaltDescription { get; }
-    public abstract string SuperExaltTitle { get; }
-    public abstract string SuperExaltDescription { get; }
-    public virtual async Task Exalt(Player player) { }
-    public virtual async Task SuperExalt(Player player) { }
+
+    // ─── 快取欄位 ───
+    private CombatState? _cachedCombatState;
+    private AbstractExaltCard? _cachedExaltCard;
+    private AbstractExaltCard? _cachedSuperExaltCard;
+
+    // ─── 工廠方法 (Factory Methods) ───
+    // 子類別只需要實作這兩個方法，回傳對應的卡牌範本即可
+    protected abstract AbstractExaltCard CreateExaltCardInstance();
+    protected abstract AbstractExaltCard CreateSuperExaltCardInstance();
+
+    // ─── 核心輔助方法：獲取並動態更新快取的卡牌 ───
+    protected AbstractExaltCard GetExaltCard()
+    {
+        // 只有第一次會執行 ToMutable() 分配記憶體，後續皆重複使用
+        var combatState = CombatManager.Instance._state;
+
+        // 當戰鬥對局改變（例如重開局），或是快取尚未建立時，重新調用工廠獲取綁定新環境的卡牌
+        if (_cachedExaltCard == null || _cachedCombatState != combatState)
+        {
+            _cachedCombatState = combatState;
+            _cachedExaltCard = CreateExaltCardInstance(); // 重新 ToMutable() 完美向新對局注入 CombatState
+        }
+
+        _cachedExaltCard.UpgradePreviewType = CardUpgradePreviewType.Combat;
+
+        if (combatState != null)
+        {
+            _cachedExaltCard.Owner ??= LocalContext.GetMe(combatState)!;
+            _cachedExaltCard.DynamicVars.ClearPreview();
+            _cachedExaltCard.UpdateDynamicVarPreview(CardPreviewMode.Normal, null, _cachedExaltCard.DynamicVars);
+        }
+
+        return _cachedExaltCard;
+    }
+
+    protected AbstractExaltCard GetSuperExaltCard()
+    {
+        var combatState = CombatManager.Instance._state;
+
+        if (_cachedSuperExaltCard == null || _cachedCombatState != combatState)
+        {
+            _cachedCombatState = combatState;
+            _cachedSuperExaltCard = CreateSuperExaltCardInstance();
+        }
+
+        _cachedSuperExaltCard.UpgradePreviewType = CardUpgradePreviewType.Combat;
+
+        if (combatState != null)
+        {
+            _cachedSuperExaltCard.Owner ??= LocalContext.GetMe(combatState)!;
+            _cachedSuperExaltCard.DynamicVars.ClearPreview();
+            _cachedSuperExaltCard.UpdateDynamicVarPreview(CardPreviewMode.Normal, null, _cachedSuperExaltCard.DynamicVars);
+        }
+
+        return _cachedSuperExaltCard;
+    }
+
+    public virtual string ExaltTitle => GetExaltCard().Title;
+    public virtual string ExaltDescription => GetExaltCard().GetDescriptionForPile(PileType.Hand);
+    public virtual async Task Exalt(Player player) => await GetExaltCard().Execute(player);
+    public virtual string SuperExaltTitle => GetSuperExaltCard().Title;
+    public virtual string SuperExaltDescription => GetSuperExaltCard().GetDescriptionForPile(PileType.Hand);
+    public virtual async Task SuperExalt(Player player) => await GetSuperExaltCard().Execute(player);
 
     public decimal ModifyMaxSecondaryResource(SecondaryResourceMaxContext context, decimal amount)
     {

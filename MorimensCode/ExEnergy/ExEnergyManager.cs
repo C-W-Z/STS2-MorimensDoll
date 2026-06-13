@@ -20,7 +20,7 @@ public static class ExEnergyManager
         public string ResourceId { get; init; } = "";
         public Func<IAwaker, int> GetBaseCost { get; init; } = null!;
 
-        // ✨ 新增與升級：傳入(喚醒者, 當前量, 上限值) 來決定實際數值與行為
+        // 傳入(Awaker, 當前量, 上限值) 來決定實際數值與行為
         public Func<IAwaker, int, int, int> GetActualCost { get; init; } = null!;
         public Func<IAwaker, int, int, string> GetTitle { get; init; } = null!;
         public Func<IAwaker, int, int, string> GetDescription { get; init; } = null!;
@@ -227,17 +227,21 @@ public static class ExEnergyManager
     private static void OnCounterReady(NSecondaryResourceCounter counter)
     {
         var energyId = GetResourceDefinitionId(counter);
-        if (string.IsNullOrEmpty(energyId) || !EnergyContexts.ContainsKey(energyId)) return;
+        if (string.IsNullOrEmpty(energyId) || !EnergyContexts.ContainsKey(energyId))
+            return;
 
         var realIcon = FindChildIcon(counter);
-        if (realIcon == null) return;
+        if (realIcon == null)
+            return;
 
         realIcon.GuiInput += (inputEvent) => OnIconGuiInput(inputEvent, counter, realIcon, energyId);
     }
 
     private static void OnIconGuiInput(InputEvent @event, NSecondaryResourceCounter counter, NSecondaryResourceIcon icon, string energyId)
     {
-        if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right }) return;
+        if (@event is not InputEventMouseButton { Pressed: true })
+            return;
+
         icon.AcceptEvent();
 
         if (!CombatManager.Instance.IsInProgress || CombatManager.Instance._state?.CurrentSide != CombatSide.Player)
@@ -265,7 +269,8 @@ public static class ExEnergyManager
 
         // 4. 尋找 UI 樹中的 NCombatUi 與彈窗
         var combatUi = FindParentCombatUi(counter);
-        if (combatUi == null) return;
+        if (combatUi == null)
+            return;
 
         if (TryGetConfirmationDialog(combatUi, out var dialog))
         {

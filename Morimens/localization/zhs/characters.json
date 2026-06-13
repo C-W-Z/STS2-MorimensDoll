@@ -19,7 +19,7 @@
   "MORIMENS_CHARACTER_DOLL.unlockText": "用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。",
   "MORIMENS_CHARACTER_DOLL.victoryMessage": "模板验证完成。",
   "MORIMENS_CHARACTER_DOLL.EXALT.title": "狂氣爆發：理性，真理與現實",
-  "MORIMENS_CHARACTER_DOLL.EXALT.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Damage:diff()}點生命，所有友方+20狂。",
+  "MORIMENS_CHARACTER_DOLL.EXALT.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Damage:diff()}點生命，其他玩家獲得{Aliemus:diff()}[gold]狂氣[/gold]。",
   "MORIMENS_CHARACTER_DOLL.SUPER_EXALT.title": "超限爆發：心智分析",
   "MORIMENS_CHARACTER_DOLL.SUPER_EXALT.description": "驅散所有友方[gold]易傷[/gold]狀態，所有友方回復{Heal:diff()}點生命，所有友方+20狂。接下來3回合每回合開始時所有友方回復{Heal}點生命。"
 }

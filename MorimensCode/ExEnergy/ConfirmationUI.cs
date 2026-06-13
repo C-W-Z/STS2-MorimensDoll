@@ -67,6 +67,8 @@ public sealed partial class ConfirmationUi : Control
             CornerRadiusBottomRight = 4
         };
 
+        Font parentFont = GetThemeFont(ThemeConstants.RichTextLabel.NormalFont);
+
         _titleLabel = new MegaRichTextLabel
         {
             Position = new Vector2(40f, 20f),
@@ -75,6 +77,8 @@ public sealed partial class ConfirmationUi : Control
             MinFontSize = 20,
             MaxFontSize = 28
         };
+        // 防止 MegaLabelHelper.AssertThemeFontOverride 報錯
+        _titleLabel.AddThemeFontOverride(ThemeConstants.RichTextLabel.NormalFont, parentFont);
         _backgroundPanel.AddChild(_titleLabel);
 
         _descriptionLabel = new MegaRichTextLabel
@@ -87,6 +91,8 @@ public sealed partial class ConfirmationUi : Control
             // MinFontSize = 14,
             MaxFontSize = 24
         };
+        // 防止 MegaLabelHelper.AssertThemeFontOverride 報錯
+        _descriptionLabel.AddThemeFontOverride(ThemeConstants.RichTextLabel.NormalFont, parentFont);
         _backgroundPanel.AddChild(_descriptionLabel);
 
         _confirmButton = new Button
